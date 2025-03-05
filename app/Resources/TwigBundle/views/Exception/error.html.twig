@@ -1,0 +1,7 @@
+{% extends '@web/dist/index.html' %}
+
+{% block vue %}
+    <error-page header-i18n="Error"
+            :message-i18n="$t('The server has returned an HTTP {statusCode} error.', {statusCode: {{ status_code }}})"
+            icon="pe-7s-gleam"></error-page>
+{% endblock %}

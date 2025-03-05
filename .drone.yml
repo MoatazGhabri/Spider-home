@@ -1,0 +1,135 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: install-frontend
+    image: node:16.20.2-slim
+    depends_on: [clone]
+    commands:
+      - npm -v
+      - node -v
+      - cd src/frontend
+      - npm ci
+
+  - name: build-frontend
+    image: node:16.20.2-slim
+    depends_on: [install-frontend]
+    commands:
+      - cd src/frontend && npm run build
+
+  - name: lint-frontend
+    image: node:16.20.2-slim
+    depends_on: [install-frontend]
+    commands:
+      - cd src/frontend && npm run lint -s
+
+  #  - name: audit-frontend
+  #    image: node:16.20.2-slim
+  #    depends_on: [install-frontend]
+  #    commands:
+  #      - cd src/frontend && npm audit --production
+
+  - name: test-frontend-unit
+    image: node:16.20.2-slim
+    depends_on: [build-frontend]
+    commands:
+      - cd src/frontend
+      - npm run test:unit
+
+  - name: install-backend
+    image: supla/supla-cloud:ci-php8.3
+    pull: always
+    depends_on: [clone]
+    commands:
+      - cp app/config/parameters.yml.drone app/config/parameters.yml
+      - composer install --optimize-autoloader
+
+  - name: lint-backend
+    image: supla/supla-cloud:ci-php8.3
+    depends_on: [install-backend]
+    commands:
+      - composer run lint-backend
+
+  - name: backend-unit-tests
+    image: supla/supla-cloud:ci-php8.3
+    depends_on: [install-backend]
+    commands:
+      - ./vendor/bin/phpunit -c app --testsuite unit
+
+  - name: api-tests
+    image: supla/supla-cloud:ci-php8.3
+    depends_on: [install-backend, build-frontend]
+    commands:
+      - rm -fr var/cache/test
+      - ./vendor/bin/phpunit -c app --stop-on-error --stop-on-failure --testsuite api
+
+  - name: integration-tests
+    image: supla/supla-cloud:ci-php8.3
+    depends_on: [api-tests]
+    commands:
+      - rm -fr var/cache/test
+      - ./vendor/bin/phpunit -c app --stop-on-error --stop-on-failure --testsuite integration
+
+  - name: test-e2e
+    image: cypress/base:16.18.1
+    depends_on: [install-backend, build-frontend]
+    environment:
+      CYPRESS_DATABASE: mysql://root@database/supla_e2e
+    commands:
+      - apt-get update && apt-get install -y ca-certificates apt-transport-https software-properties-common wget gnupg
+      - echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/sury-php.list
+      - wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+      - apt-get update && apt-get install -y dialog php8.3 php8.3-curl php8.3-dom php8.3-intl php8.3-mbstring php8.3-mysql php8.3-zip
+      - cd src/frontend
+      - npm ci
+      - node_modules/cypress/bin/cypress install
+      - npm run test:e2e:ci
+
+  - name: test-e2e-nightly
+    image: cypress/base:16.18.1
+    depends_on: [test-e2e]
+    when:
+      cron: nightly
+      event: cron
+    commands:
+      - cd src/frontend
+      - npm ci
+      - node_modules/cypress/bin/cypress install
+      - npm run test:e2e:nightly
+
+  - name: dump-logs
+    image: cypress/base:16.18.1
+    depends_on: [api-tests, test-e2e]
+    failure: ignore
+    when:
+      status: [success, failure]
+    trigger:
+      status: [success, failure]
+    commands:
+      - ls var/logs
+      - find var/logs/ -type f | xargs cat
+
+  - name: notify
+    image: mike1pol/drone-rocket
+    depends_on: [integration-tests, test-e2e]
+    failure: ignore
+    settings:
+      url: {from_secret: rocket_url}
+      user_id: {from_secret: rocket_user}
+      token: {from_secret: rocket_token}
+      channel: github
+    when:
+      status: [success, failure]
+    trigger:
+      status: [success, failure]
+      event:
+        exclude: [pull_request]
+
+services:
+  - name: database
+    image: mysql:5.7.20
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: supla_test
+      MYSQL_USER: drone
+      MYSQL_PASSWORD: ~
