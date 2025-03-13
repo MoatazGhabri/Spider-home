@@ -63,20 +63,19 @@
             
          
             <ul>
-                <li class="has-children" @click="toggleDropdown('account')">
+                <li class="has-children" @click="toggleDropdown('informations')">
                     <a class="menu-title">
-                        <i class="pe-7s-user"></i>
-                        <span v-if="!collapsed">{{ $t('Account') }}</span>
+                        <i class="pe-7s-info"></i>
+                        <span v-if="!collapsed">{{ $t('Informations') }}</span>
                         <i class="arrow" v-if="!collapsed"></i>
                     </a>
-                    <ul class="submenu" v-show="openDropdown === 'account'" v-if="!collapsed">
+                    <ul class="submenu" v-show="openDropdown === 'informations'" v-if="!collapsed">
                         <li>
                                 <router-link to="/account" class="text-center">
                                     <i class="pe-7s-user"></i>
                                    <span v-if="!collapsed"> {{ $t('Account') }}</span>
                                 </router-link>
                             </li>
-                            <li class="divider"></li>
                             <li>
                                 <router-link :to="{name: 'integrations.myOauthApps'}">
                                     <fa icon="puzzle-piece" class="mr-1" />
@@ -211,28 +210,12 @@ export default {
     .sidebar-nav {
         flex: 1;
         list-style: none;
-        justify-content: start;
         padding: 0;
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-        gap: 5px;
-    &.expanded{
-        flex: 1;
-        list-style: none;
-        justify-content: start;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items:start;
-        gap: 5px;
-    }
 
         li {
             position: relative;
-            a,.menu-title {
+            a {
                 display: flex;
                 align-items: center;
                 padding: 10px 15px;

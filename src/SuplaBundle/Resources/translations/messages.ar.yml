@@ -1,6 +1,7 @@
 # Do not add new translation keys manually. Run npm run collect-translations in order to update this file.
 #<editor-fold desc="Complete translations" defaultstate="collapsed">
 Login to your Spider Home: تسجيل الدخول الي Spider Home
+Informations: معلومات
 '% of closing': نسبة الإغلاق ٪
 '%s trigger is not supported by the hardware.': مشغل %s غير مدعوم من قبل الجهاز.
 ...open and shut roller shutters: ... إسدال وكشف الستائر

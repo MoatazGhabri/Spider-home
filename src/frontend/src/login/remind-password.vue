@@ -65,6 +65,7 @@
 <style scoped
     lang="scss">
     @import "../styles/variables";
+    @import "../styles/mixins.scss";
 
     .recovery-form {
         input {

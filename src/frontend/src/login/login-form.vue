@@ -1,284 +1,603 @@
 <template>
-    <div class="login-container">
-        <div class="login-box">
-
-            <div class="login-left">
-                <div class="logo">
-                    <img src="../assets/img/logospiderhome.png" alt="logo">
+    <div class="body">
+    <div class="container_login">
+         <div class="form-box login">
+            <div class="form">
+                
+                 <h1>Login</h1>
+                 <div class="input-box">
+                   <input type="email"
+                           required
+                           autocorrect="off"
+                           autocapitalize="none"
+                           v-focus="true"
+                           :placeholder="$t('Your email')"
+                           v-model="username"
+                           name="_username"
+                           class="form-control">
+                     <i class='bx bxs-user'></i>
+                 </div>
+                 <div class="input-box">
+                   <input type="password"
+                           :placeholder="$t('Password')"
+                           name="_password"
+                           v-model="password"
+                           class="form-control">
+                     <i class='bx bxs-lock-alt' ></i>
+                 </div>
+                 <div class="forgot-link">
+                    <a @click="showForgotPasswordModal = true">Forgot Password?</a>
                 </div>
-                <div class="additional-buttons">
-                    <router-link to="/register" class="btn">
-                        <span class="icon"><i class="pe-7s-user"></i></span>
-                        {{ $t('Create an account') }}
-                    </router-link>
-                    <router-link to="/forgotten-password" class="btn">
-                        <span class="icon"><i class="pe-7s-help1"></i></span>
-                        {{ $t('Forgot your password?') }}
-                    </router-link>
-                    
+                 <button type="submit"
+                       class="btnn btn-blue btn-lg"
+                       @click="$emit('input', {username: username, password: password})"
+                       :disabled="authenticating">
+                       <span v-if="!authenticating">
+                           <span v-if="submitButtonText">{{ submitButtonText }}</span>
+                           <span v-else>{{ $t('Sign In') }}</span>
+                       </span>
+                       <button-loading-dots v-else></button-loading-dots>
+                   </button>
+                 
+                </div>
+         </div>
+
+         <div class="form-box register">
+            <form @submit.prevent="submit()">
+            <input type="hidden"
+                name="timezone"
+                :value="timezone">
+            <div :class="['form-group', {'has-error': errorEmail}]">
+                <label for="email"></label>
+                <input type="email"
+                    id="email"
+                    class="form-control"
+                    autocorrect="off"
+                    v-focus="true"
+                    autocapitalize="none"
+                    @blur="emailTouched = true"
+                    :placeholder="$t('Enter your email address')"
+                    v-model="username">
+                <div class="help-block for-error-only">
+                    {{ $t('Please enter a valid email address') }}
+                </div>
+            </div>
+            <div :class="['form-group', {'has-error': passwordTouched && errorPassword}]">
+                <input type="password"
+                    @blur="passwordTouched = true"
+                    id="password"
+                    class="form-control"
+                    :placeholder="$t('Enter strong password')"
+                    v-model="password">
+                <div class="help-block for-error-only">
+                    {{ $t('The password should be 8 or more characters.') }}
+                </div>
+                <div class="help-block hidden-xs">
+    <div class="progress-container">
+        <div class="progress-bar" :style="{ width: passwordStrength + '%' }"></div>
+    </div>
+</div>
+
+            </div>
+            <div :class="['form-group', {'has-error': errorPasswordConfirm}]">
+                <input type="password"
+                    id="password-confirm"
+                    @blur="passwordConfirmTouched = true"
+                    class="form-control"
+                    :placeholder="$t('Repeat password') "
+                    v-model="confirmPassword">
+                <div class="help-block for-error-only">
+                    {{ $t('The password and its confirm are not the same.') }}
                 </div>
             </div>
 
-            <div class="login-right">
-                <h2>{{ $t('Login to your Spider Home') }}</h2>
-                <div class="error-container">
-                    <transition name="fade">
-                        <div v-if="error === 'sessionExpired'" class="error-message error-session">
-                            {{ $t('Your session has expired. Please log in again.') }}
-                        </div>
-                    </transition>
+            <div :class="['form-group', {'has-error': errorRegulations}]">
+                <regulations-checkbox v-model="regulationsAgreed"
+                    @input="regulationsTouched = true"
+                    v-if="regulationsAcceptRequired"/>
+               
+            </div>
+            <transition-expand>
+                <div class="alert error"
+                    v-if="errorMessage">
+                    <p>{{ errorMessage }}</p>
+                    <p v-if="resendActivationLinkOption">
+                        <resend-account-activation-link :username="username"></resend-account-activation-link>
+                    </p>
+                </div>
+            </transition-expand>
 
-                    <transition name="fade">
-                        <div v-if="error === 'locked'" class="error-message error-locked">
-                            {{ $t('Your account has been locked. Please wait before retrying.') }}
-                        </div>
-                    </transition>
-
-                    <transition name="fade">
-                        <div v-if="error === 'disabled'" class="error-message error-disabled">
-                            {{ $t('Your account is not confirmed. Please check your email.') }}
-                        </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-if="error === 'incorrectCredentials'" class="error-message error-incorrect">
-                            {{ $t('Incorrect email or password. Please try again.') }}
-                        </div>
-                    </transition>
-                </div>
-                <div class="form-group form-group-lg">
-                    <span class="input-group">
-                        <span class="input-group-addon">
-                            <span class="pe-7s-user"></span>
-                        </span>
-                        <input type="email"
-                            required
-                            autocorrect="off"
-                            autocapitalize="none"
-                            v-focus="true"
-                            :placeholder="$t('Your email')"
-                            v-model="username"
-                            name="_username"
-                            class="form-control">
-                    </span>
-                </div>
-                <div class="form-group form-group-lg login-password">
-                    <span class="input-group">
-                        <span class="input-group-addon">
-                            <span class="pe-7s-lock"></span>
-                        </span>
-                        <input type="password"
-                            :placeholder="$t('Password')"
-                            name="_password"
-                            v-model="password"
-                            class="form-control">
-                    </span>
-                </div>
-                <div class="form-group text-right">
-                    <button type="submit"
-                        class="btn btn-blue btn-lg"
-                        @click="$emit('input', {username: username, password: password})"
-                        :disabled="authenticating">
-                        <span v-if="!authenticating">
-                            <span v-if="submitButtonText">{{ submitButtonText }}</span>
-                            <span v-else>{{ $t('Sign In') }}</span>
+            <div v-if="captchaEnabled">
+                <invisible-recaptcha
+                    :sitekey="captchaSiteKey"
+                    :callback="checkCaptcha"
+                    id="registerRecaptcha"
+                    :disabled="isBusy"
+                    :form-valid="formIsValid">
+                    <template>
+                        <span v-if="!isBusy">
+                            {{ $t('Create an account') }}
                         </span>
                         <button-loading-dots v-else></button-loading-dots>
-                    </button>
-                </div>
+                    </template>
+                </invisible-recaptcha>
+            </div>
+            <div v-else>
+                <button type="submit"
+                    class="btnn">
+                    <span v-if="!isBusy">
+                        {{ $t('Create an account') }}
+                    </span>
+                    <button-loading-dots v-else></button-loading-dots>
+                </button>
+            </div>
+        </form>
+         </div>
+
+         <div class="toggle-box">
+             <div class="toggle-panel toggle-left">
+                 <img src="../assets/img/logospiderhome.png" alt="logo">
+                 <p>Don't have an account?</p>
+                 <button type="button" class="btnn register-btn">Register</button>
+             </div>
+
+             <div class="toggle-panel toggle-right">
+                <img src="../assets/img/logospiderhome.png" alt="logo">
+                 <p>Already have an account?</p>
+                 <button type="button" class="btnn login-btn">Login</button>
+             </div>
+         </div>
+     </div>
+     <div v-if="showForgotPasswordModal" class="modal-overlay" @click="closeModal">
+            <div class="modal-content" @click.stop>
+                <button @click="closeModal" class="btn-close">&times;</button>
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive password reset instructions.</p>
+                <!-- <input type="email" v-model="resetEmail" placeholder="Enter your email" class="form-control"> -->
+                <input autocomplete="off"
+                    class="form-control"
+                    required
+                    v-focus="true"
+                    v-model="email"
+                    type="email"
+                    :placeholder="$t('Enter your email address')">
+                <!-- <button @click="sendResetEmail" class="btnn">Send Reset Link</button> -->
+                <button type="submit"
+                    class="btn btn-black">
+                    <span v-if="!loading">{{ $t('RESET') }}</span>
+                    <button-loading-dots v-else></button-loading-dots>
+                </button>
+                <p v-if="sent"><strong>{{ $t('Check your email box') }}</strong></p>
+            <p v-else-if="sentProblem"><strong>{{ $t('Could not reset the password. Please try again later.') }}</strong></p>
+
             </div>
         </div>
     </div>
 </template>
 
-
 <script>
-    import ButtonLoadingDots from "../common/gui/loaders/button-loading-dots.vue";
-    import ResendAccountActivationLink from "../register/resend-account-activation-link";
-    import MaintenanceWarning from "../common/errors/maintenance-warning";
-    import {mapState} from "pinia";
-    import {useFrontendConfigStore} from "@/stores/frontend-config-store";
+import ButtonLoadingDots from "../common/gui/loaders/button-loading-dots.vue";
+import InvisibleRecaptcha from '../register/invisible-recaptcha.vue';
+import RegulationsCheckbox from "../common/errors/regulations-checkbox";
+import ResendAccountActivationLink from "../register/resend-account-activation-link.vue";
+import FaChecklistBullet from "@/register/fa-checklist-bullet";
+import TransitionExpand from "@/common/gui/transition-expand";
+import {DateTime} from "luxon";
+import {mapState} from "pinia";
+import {useFrontendConfigStore} from "@/stores/frontend-config-store";
 
-    export default {
-        props: ['authenticating', 'oauth', 'error', 'value', 'intitialUsername', 'submitButtonText'],
-        components: {ResendAccountActivationLink, ButtonLoadingDots, MaintenanceWarning},
-        data() {
-            return {
-                username: '',
-                password: '',
-            };
+export default {
+   props: ['authenticating', 'oauth', 'error', 'value', 'intitialUsername', 'submitButtonText'],
+   components: { TransitionExpand,
+            FaChecklistBullet, ResendAccountActivationLink, RegulationsCheckbox, ButtonLoadingDots, InvisibleRecaptcha
         },
-        mounted() {
-            this.username = this.intitialUsername || '';
+   data() {
+           return {
+               username: '',
+               password: '',
+               showForgotPasswordModal: false,
+               loading: false,
+               email: '',
+               sent: false,
+               sentProblem: false,
+               confirmPassword: '',
+                timezone: DateTime.local().setZone("system").zoneName || 'Europe/Warsaw',
+                isBusy: false,
+                errorMessage: '',
+                captchaToken: null,
+                regulationsAgreed: false,
+                resendActivationLinkOption: false,
+                emailTouched: false,
+                passwordTouched: false,
+                passwordConfirmTouched: false,
+                regulationsTouched: false,
+           };
+       },
+ mounted() {
+   this.username = this.intitialUsername || '';
+   const container_login = document.querySelector('.container_login');
+   const registerBtn = document.querySelector('.register-btn');
+   const loginBtn = document.querySelector('.login-btn');
+
+   if (registerBtn && loginBtn && container_login) {
+     registerBtn.addEventListener('click', () => {
+        container_login.classList.add('active');
+     });
+
+     loginBtn.addEventListener('click', () => {
+        container_login.classList.remove('active');
+     });
+   }
+ },
+ methods: {
+        closeModal() {
+            this.showForgotPasswordModal = false;
         },
-        computed: {
+        remind() {
+                if (!this.loading) {
+                    this.loading = true;
+                    this.sent = this.sentProblem = false;
+                    this.$http.patch('forgotten-password', {email: this.email}).then(() => {
+                        this.email = '';
+                        this.sent = true;
+                    }).catch(() => this.sentProblem = true)
+                        .finally(() => this.loading = false);
+                }
+            },
+            checkCaptcha(recaptchaToken) {
+                this.captchaToken = this.captchaEnabled ? recaptchaToken : null;
+                this.submit();
+            },
+            submit() {
+                this.resendActivationLinkOption = false;
+                this.emailTouched = true;
+                this.passwordTouched = true;
+                this.passwordConfirmTouched = true;
+                this.regulationsTouched = true;
+                this.errorMessage = ''; 
+                if (!this.formIsValid) {
+                    return;
+                }
+                const data = {
+                    email: this.username,
+                    password: this.password,
+                    timezone: this.timezone,
+                    locale: this.$i18n.locale,
+                    regulationsAgreed: this.regulationsAgreed
+                };
+                if (this.captchaEnabled) {
+                    data.captcha = this.captchaToken;
+                }
+
+                this.isBusy = true;
+                this.$http.post('register-account', data, {skipErrorHandler: [400, 409]})
+                    .then(({body}) => this.$emit('registered', body.email))
+                    .catch(({body}) => {
+                        this.resendActivationLinkOption = body.accountEnabled === false;
+                        this.errorMessage = this.$t(body.message);
+                    })
+                    .finally(() => this.isBusy = false);
+            }
+        
+    },
+ computed: {
+    errorEmail() {
+                return this.emailTouched && this.username.indexOf('@') === -1;
+            },
+            errorPassword() {
+                return this.password.length < 8;
+            },
+            errorPasswordConfirm() {
+                return this.passwordConfirmTouched && this.password !== this.confirmPassword;
+            },
+            errorRegulations() {
+                return this.regulationsTouched && !this.regulationsAgreed && this.regulationsAcceptRequired;
+            },
+            formIsValid() {
+                return !this.errorEmail && !this.errorPassword && !this.errorPasswordConfirm && !this.errorRegulations;
+            },
             ...mapState(useFrontendConfigStore, {frontendConfig: 'config'}),
-        }
-    };
+            captchaEnabled() {
+                return this.frontendConfig.recaptchaEnabled;
+            },
+            captchaSiteKey() {
+                return this.frontendConfig.recaptchaSiteKey;
+            },
+            regulationsAcceptRequired() {
+                return this.frontendConfig.regulationsAcceptRequired;
+            },
+            passwordStrength() {
+        let strength = 0;
+        if (this.password.length >= 8) strength += 25;
+        if (this.password.length >= 12) strength += 25;
+        if (/[A-Z]/.test(this.password) && /[a-z]/.test(this.password)) strength += 20;
+        if (/\d/.test(this.password)) strength += 15;
+        if (/[^0-9a-zA-Z]/.test(this.password)) strength += 15;
+        return strength;
+    }
+       }
+};
 </script>
-
 <style lang="scss">
-    @import "../styles/variables";
-    @import "../styles/mixins";
-
-    .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5; 
-}
-
-.login-box {
-    display: flex;
-    width: 800px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+ @import '../styles/mixins';
+ @import '../styles/variables';
+ .progress-container {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-top: 5px;
     overflow: hidden;
 }
 
-.login-left {
-    width: 35%;
-    background-color: $supla-green; 
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.progress-bar {
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+    background: linear-gradient(to right, $supla-red, orange, yellow,$supla-green);
 }
 
-.login-left .logo img {
-    width: 120px;
-    height: auto;
-    margin-bottom: 20px;
-}
-
-.login-left .additional-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+ .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-}
-
-.login-left .additional-buttons .btn {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: 0.3s;
-    font-size: 1em;
     justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.login-left .additional-buttons .btn .icon {
-    margin-right: 8px;
-    font-size: 1.2em;
-}
-
-.login-left .additional-buttons .btn:hover {
+.modal-content {
+    position: relative;
     background: white;
-    color: #2c3e50;
-}
-
-.login-right {
-    width: 65%;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.login-right h2 {
-    margin-bottom: 20px;
-    font-size: 2.5em;
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    color: $supla-green;
+    width: 300px;
+    justify-content: space-between;
+    z-index: 9999;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
-.input-group {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid white;
-    padding: 5px;
-}
-
-.input-group-addon {
-    margin-right: 10px;
-    color: #666;
-    font-size: 1.2em;
-}
-
-input.form-control {
-    width: 100%;
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
     border: none;
-    outline: none;
-    padding: 8px;
-}
-
-.btn-blue {
-    background: $supla-green;
-    width: 100%;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5pc;
+    font-size: 20px;
     cursor: pointer;
-    transition: 0.3s;
+}
+.body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.btn-blue:hover {
-    background: $supla-blue;
+.container_login{
+   position: relative;
+   width: 850px;
+   height: 450px;
+   background: #fff;
+   margin: 20px;
+   border-radius: 30px;
+   box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+   overflow: hidden;
 }
 
-.error {
-            display: inline-block;
-            background: $supla-yellow;
-            padding: 12px 20px;
-            margin-top: 15px;
-            border-radius: 3px;
-            color: $supla-black;
-            margin-bottom: 20px;
-}
-.error-container {
-    margin-top: 10px;
-    text-align: center;
+   .container_login h1{
+       font-size: 36px;
+       margin: -10px 0;
+   }
+
+   .container_login p{
+       font-size: 14.5px;
+       margin: 15px 0;
+   }
+
+.form{ width: 100%; }
+
+.form-box{
+   position: absolute;
+   right: 0;
+   width: 50%;
+   height: 100%;
+   background: #fff;
+   display: flex;
+   align-items: center;
+   color: #333;
+   text-align: center;
+   padding: 40px;
+   z-index: 1;
+   transition: .6s ease-in-out 1.2s, visibility 0s 1s;
 }
 
-.error-message {
-    display: block;
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-bottom: 10px;
+   .container_login.active .form-box{ right: 50%; }
+
+   .form-box.register{ visibility: hidden; }
+       .container_login.active .form-box.register{ visibility: visible; }
+
+.input-box{
+   position: relative;
+   margin: 30px 0;
 }
 
-.error-session {
-    background: #f39c12;
-    color: white;
+   .input-box input{
+       width: 100%;
+       padding: 13px 50px 13px 20px;
+       background: #eee;
+       border-radius: 8px;
+       border: none;
+       outline: none;
+       font-size: 16px;
+       color: #333;
+       font-weight: 500;
+   }
+
+       .input-box input::placeholder{
+           color: #888;
+           font-weight: 400;
+       }
+   
+   .input-box i{
+       position: absolute;
+       right: 20px;
+       top: 50%;
+       transform: translateY(-50%);
+       font-size: 20px;
+   }
+
+.forgot-link{ margin: -15px 0 15px; }
+   .forgot-link a{
+       font-size: 14.5px;
+       color: #333;
+   }
+img{
+    width: 170px;
+    height: 170px;
+}
+.btnn{
+   width: 100%;
+   height: 48px;
+   background: $supla-green;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+   border: none;
+   cursor: pointer;
+   font-size: 16px;
+   color: #fff;
+   font-weight: 600;
 }
 
-.error-locked {
-    background: #e74c3c;
-    color: white;
+.social-icons{
+   display: flex;
+   justify-content: center;
 }
 
-.error-disabled {
-    background: #c0392b;
-    color: white;
+   .social-icons a{
+       display: inline-flex;
+       padding: 10px;
+       border: 2px solid #ccc;
+       border-radius: 8px;
+       font-size: 24px;
+       color: #333;
+       margin: 0 8px;
+   }
+
+.toggle-box{
+   position: absolute;
+   width: 100%;
+   height: 100%;
 }
-.error-incorrect {
-    background: #e67e22;
-    color: white;
+
+   .toggle-box::before{
+       content: '';
+       position: absolute;
+       left: -250%;
+       width: 300%;
+       height: 100%;
+       background: $supla-green;
+       /* border: 2px solid red; */
+       border-radius: 150px;
+       z-index: 2;
+       transition: 1.8s ease-in-out;
+   }
+
+       .container_login.active .toggle-box::before{ left: 50%; }
+
+.toggle-panel{
+   position: absolute;
+   width: 50%;
+   height: 100%;
+   /* background: seagreen; */
+   color: #fff;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   z-index: 2;
+   transition: .6s ease-in-out;
 }
+
+   .toggle-panel.toggle-left{ 
+       left: 0;
+       transition-delay: 1.2s; 
+   }
+       .container_login.active .toggle-panel.toggle-left{
+           left: -50%;
+           transition-delay: .6s;
+       }
+
+   .toggle-panel.toggle-right{ 
+       right: -50%;
+       transition-delay: .6s;
+   }
+       .container_login.active .toggle-panel.toggle-right{
+           right: 0;
+           transition-delay: 1.2s;
+       }
+
+   .toggle-panel p{ margin-bottom: 20px; }
+
+   .toggle-panel .btnn{
+       width: 160px;
+       height: 46px;
+       background: transparent;
+       border: 2px solid #fff;
+       box-shadow: none;
+   }
+
+@media screen and (max-width: 650px){
+   .container_login{ height: calc(100vh - 40px); }
+
+   .form-box{
+       bottom: 0;
+       width: 100%;
+       height: 70%;
+   }
+
+       .container_login.active .form-box{
+           right: 0;
+           bottom: 30%;
+       }
+
+   .toggle-box::before{
+       left: 0;
+       top: -270%;
+       width: 100%;
+       height: 300%;
+       border-radius: 20vw;
+   }
+
+       .container_login.active .toggle-box::before{
+           left: 0;
+           top: 70%;
+       }
+
+       .container_login.active .toggle-panel.toggle-left{
+           left: 0;
+           top: -30%;
+       }
+
+   .toggle-panel{ 
+       width: 100%;
+       height: 30%;
+   }
+       .toggle-panel.toggle-left{ top: 0; }
+       .toggle-panel.toggle-right{
+           right: 0;
+           bottom: -30%;
+       }
+
+           .container_login.active .toggle-panel.toggle-right{ bottom: 0; }
+}
+
+@media screen and (max-width: 400px){
+   .form-box { padding: 20px; }
+
+   .toggle-panel h1{font-size: 30px; }
+}
+
 </style>

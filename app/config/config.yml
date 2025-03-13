@@ -217,7 +217,7 @@ parameters:
   fos_oauth_server.security.authentication.provider.class: SuplaBundle\Auth\SuplaOAuthProvider
   supla_protocol: https
   supla_server_socket: /var/run/supla/supla-server-ctrl.sock
-  supla_url: '%supla_protocol%://%supla_server%'
+  supla_url: 'https://5dba-2c0f-f3a0-95-428-394a-efd8-1c79-a734.ngrok-free.app'
   container.autowiring.strict_mode: true
   project_name: "Spider-Home"
   project_version: "1.0"
