@@ -249,7 +249,7 @@ a{
     font-size: 20px;
     cursor: pointer;
 }
-.body{
+
 .btn-close {
     position: absolute;
     top: 10px;
@@ -268,15 +268,7 @@ a{
     min-height: 100vh;
 }
 
-.container_login{
-   position: relative;
-   width: 850px;
-   height: 450px;
-   background: #fff;
-   margin: 20px;
-   border-radius: 30px;
-   box-shadow: 0 0 30px rgba(0, 0, 0, .2);
-   overflow: hidden;
+
 .container_login{
    position: relative;
    width: 850px;
@@ -402,9 +394,6 @@ img{
    font-weight: 600;
 }
 
-.social-icons{
-   display: flex;
-   justify-content: center;
 .input-box{
    position: relative;
    margin: 30px 0;
