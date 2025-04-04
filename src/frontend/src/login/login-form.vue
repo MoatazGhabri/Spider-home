@@ -234,8 +234,22 @@ a{
     width: 300px;
     justify-content: space-between;
     z-index: 9999;
+    text-align: center;
+    width: 300px;
+    justify-content: space-between;
+    z-index: 9999;
 }
 
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+.body{
 .btn-close {
     position: absolute;
     top: 10px;
@@ -250,8 +264,19 @@ a{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    align-items: center;
+    min-height: 100vh;
 }
 
+.container_login{
+   position: relative;
+   width: 850px;
+   height: 450px;
+   background: #fff;
+   margin: 20px;
+   border-radius: 30px;
+   box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+   overflow: hidden;
 .container_login{
    position: relative;
    width: 850px;
@@ -274,7 +299,37 @@ a{
    }
 
 .form{ width: 100%; }
+   .container_login h1{
+       font-size: 36px;
+       margin: -10px 0;
+   }
 
+   .container_login p{
+       font-size: 14.5px;
+       margin: 15px 0;
+   }
+
+.form{ width: 100%; }
+
+.form-box{
+   position: absolute;
+   right: 0;
+   width: 50%;
+   height: 100%;
+   background: #fff;
+   display: flex;
+   align-items: center;
+   color: #333;
+   text-align: center;
+   padding: 40px;
+   z-index: 1;
+   transition: .6s ease-in-out 1.2s, visibility 0s 1s;
+}
+
+   .container_login.active .form-box{ right: 50%; }
+
+   .form-box.register{ visibility: hidden; }
+       .container_login.active .form-box.register{ visibility: visible; }
 .form-box{
    position: absolute;
    right: 0;
@@ -350,8 +405,93 @@ img{
 .social-icons{
    display: flex;
    justify-content: center;
+.input-box{
+   position: relative;
+   margin: 30px 0;
 }
 
+   .input-box input{
+       width: 100%;
+       padding: 13px 50px 13px 20px;
+       background: #eee;
+       border-radius: 8px;
+       border: none;
+       outline: none;
+       font-size: 16px;
+       color: #333;
+       font-weight: 500;
+   }
+
+       .input-box input::placeholder{
+           color: #888;
+           font-weight: 400;
+       }
+   
+   .input-box i{
+       position: absolute;
+       right: 20px;
+       top: 50%;
+       transform: translateY(-50%);
+       font-size: 20px;
+   }
+
+.forgot-link{ margin: -15px 0 15px; }
+   .forgot-link a{
+       font-size: 14.5px;
+       color: #333;
+   }
+img{
+    width: 170px;
+    height: 170px;
+}
+.btnn{
+   width: 100%;
+   height: 48px;
+   background: $supla-green;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+   border: none;
+   cursor: pointer;
+   font-size: 16px;
+   color: #fff;
+   font-weight: 600;
+}
+
+.social-icons{
+   display: flex;
+   justify-content: center;
+}
+
+   .social-icons a{
+       display: inline-flex;
+       padding: 10px;
+       border: 2px solid #ccc;
+       border-radius: 8px;
+       font-size: 24px;
+       color: #333;
+       margin: 0 8px;
+   }
+
+.toggle-box{
+   position: absolute;
+   width: 100%;
+   height: 100%;
+}
+
+   .toggle-box::before{
+       content: '';
+       position: absolute;
+       left: -250%;
+       width: 300%;
+       height: 100%;
+       background: $supla-green;
+       /* border: 2px solid red; */
+       border-radius: 150px;
+       z-index: 2;
+       transition: 1.8s ease-in-out;
+   }
+
+       .container_login.active .toggle-box::before{ left: 50%; }
    .social-icons a{
        display: inline-flex;
        padding: 10px;

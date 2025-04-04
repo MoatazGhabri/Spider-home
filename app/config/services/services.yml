@@ -4,7 +4,7 @@ services:
     autoconfigure: true
     public: false
     bind:
-      $suplaUrl: '%supla_url%'
+      $suplaUrl: 'https://5dba-2c0f-f3a0-95-428-394a-efd8-1c79-a734.ngrok-free.app'
       $recaptchaSecret: '%recaptcha_secret%'
       $recaptchaEnabled: '%recaptcha_enabled%'
       $secret: '%secret%'
@@ -102,7 +102,7 @@ services:
     resource: '../../../src/SuplaBundle/Model'
 
   SuplaBundle\Model\LocalSuplaCloud:
-    $address: '%supla_url%'
+    $address: ''
 
   SuplaBundle\Model\UserManager:
     $defaultClientsRegistrationTime: '%supla.clients_registration.registration_active_time.initial%'

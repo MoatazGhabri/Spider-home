@@ -12,7 +12,7 @@ parameters:
   mailer_from: ~
   admin_email: ~
 
-  supla_server: localhost:8008
+  supla_server: 5dba-2c0f-f3a0-95-428-394a-efd8-1c79-a734.ngrok-free.app
   supla_require_regulations_acceptance: false
   supla_require_cookie_policy_acceptance: false
   brute_force_auth_prevention_enabled: true
