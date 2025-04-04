@@ -1,107 +1,104 @@
 <template>
-    <div class="sidebar-wrapper" :class="{ 'expanded': !collapsed }">
-        <div :class="['sidebar', { 'collapsed': collapsed }]"
-        @mouseenter="collapsed = false"
-        @mouseleave="collapsed = true">
-        <div class="sidebar-header">
-            <supla-logo class="logo" v-if="collapsed"></supla-logo>
-
-            <router-link :to="{ name: 'home' }" class="sidebar-brand" v-if="!collapsed">
-                <supla-logo class="log"></supla-logo>
-            </router-link>
-        </div>
+    <div class="sidebar-container">
+        <div class="sidebar-trigger" @mouseenter="showSidebar = true"></div>
         
-        <ul class="sidebar-nav">
-            <li>
-                <router-link :to="{ name: 'me' }" active-class="link-active">
-                    <i class="pe-7s-plug"></i>
-                    <span v-if="!collapsed">{{ $t('SpiderHome') }}</span>
-                </router-link>
-            </li>
-
-            <li>
-                <router-link to="/smartphones">
-                    <i class="pe-7s-phone"></i>
-                    <span v-if="!collapsed">{{ $t('Smartphones') }}</span>
-                </router-link>
-            </li>
-
-            <li>
-                <router-link to="/locations">
-                    <i class="pe-7s-home"></i>
-                    <span v-if="!collapsed">{{ $t('Locations') }}</span>
-                </router-link>
-            </li>
-
-            <li>
-                <router-link to="/access-identifiers">
-                    <i class="pe-7s-key"></i>
-                    <span v-if="!collapsed">{{ $t('Access Identifiers') }}</span>
-                </router-link>
-            </li>
-
-            <li class="has-children" @click="toggleSubmenu('automation')">
-                <div class="menu-title">
-                <a class="dropdown-toggle" @click="toggleDropdown('automation')">
-                    <i class="pe-7s-config"></i>
-                    <span v-if="!collapsed">Automation</span>
-                    <i class="arrow" v-if="!collapsed"></i>
-                </a>
+        <transition name="slide">
+            <div class="sidebar" 
+                 v-show="showSidebar"
+                 @mouseleave="showSidebar = false">
+                
+                <div class="sidebar-header">
+                    <router-link :to="{ name: 'home' }" class="sidebar-brand">
+                        <supla-logo class="logo"></supla-logo>
+                    </router-link>
                 </div>
-                <ul class="submenu" v-show="openDropdown === 'automation'" v-if="!collapsed">
-                    <li><router-link :to="{ name: 'schedules' }"><i class="pe-7s-clock mr-1"></i><span v-if="!collapsed"> {{ $t('Schedules') }} </span></router-link></li>
-                    <li><router-link :to="{ name: 'channelGroups' }"><i class="pe-7s-keypad mr-1"></i><span v-if="!collapsed">  {{ $t('Channel groups') }}</span></router-link></li>
-                    <li><router-link :to="{ name: 'directLinks' }"><i class="pe-7s-link mr-1"></i> <span v-if="!collapsed"> {{ $t('Direct links') }}</span></router-link></li>
-                    <li><router-link :to="{ name: 'scenes' }"><i class="supla-icon supla-icon-scene mr-1"></i> <span v-if="!collapsed">{{ $t('Scenes') }}</span></router-link></li>
-                    <li><router-link :to="{ name: 'reactions' }"><i class="pe-7s-arc mr-1"></i> <span v-if="!collapsed"> {{ $t('Reactions') }}</span></router-link></li>
+
+                <ul class="sidebar-nav">
+                    <li>
+                        <router-link :to="{ name: 'me' }" active-class="link-active">
+                            <i class="pe-7s-plug"></i>
+                            <span>{{ $t('SpiderHome') }}</span>
+                        </router-link>
+                    </li>
+
+                    <li>
+                        <router-link to="/smartphones">
+                            <i class="pe-7s-phone"></i>
+                            <span>{{ $t('Smartphones') }}</span>
+                        </router-link>
+                    </li>
+                   
+                    <li>
+                        <router-link to="/locations">
+                            <i class="pe-7s-home"></i>
+                            <span>{{ $t('Locations') }}</span>
+                        </router-link>
+                    </li>
+
+                    <li>
+                        <router-link to="/access-identifiers">
+                            <i class="pe-7s-key"></i>
+                            <span>{{ $t('Access Identifiers') }}</span>
+                        </router-link>
+                    </li>
+
+                    <li class="has-children" @click="toggleSubmenu('automation')">
+                        <div class="menu-title">
+                            <a class="dropdown-toggle" @click="toggleDropdown('automation')">
+                                <i class="pe-7s-config"></i>
+                                <span>Automation</span>
+                                <i class="arrow"></i>
+                            </a>
+                        </div>
+                        <ul class="submenu" v-show="openDropdown === 'automation'">
+                            <li><router-link :to="{ name: 'schedules' }"><i class="pe-7s-clock mr-1"></i><span> {{ $t('Schedules') }} </span></router-link></li>
+                            <li><router-link :to="{ name: 'channelGroups' }"><i class="pe-7s-keypad mr-1"></i><span> {{ $t('Channel groups') }}</span></router-link></li>
+                            <li><router-link :to="{ name: 'directLinks' }"><i class="pe-7s-link mr-1"></i><span> {{ $t('Direct links') }}</span></router-link></li>
+                            <li><router-link :to="{ name: 'scenes' }"><i class="supla-icon supla-icon-scene mr-1"></i><span>{{ $t('Scenes') }}</span></router-link></li>
+                            <li><router-link :to="{ name: 'reactions' }"><i class="pe-7s-arc mr-1"></i><span> {{ $t('Reactions') }}</span></router-link></li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-           
-        </ul>
 
-        <div class="sidebar-footer">
-            
-         
-            <ul>
-                <li class="has-children" @click="toggleDropdown('account')">
-                    <a class="menu-title">
-                        <i class="pe-7s-user"></i>
-                        <span v-if="!collapsed">{{ $t('Account') }}</span>
-                        <i class="arrow" v-if="!collapsed"></i>
-                    </a>
-                    <ul class="submenu" v-show="openDropdown === 'account'" v-if="!collapsed">
-                        <li>
-                                <router-link to="/account" class="text-center">
-                                    <i class="pe-7s-user"></i>
-                                   <span v-if="!collapsed"> {{ $t('Account') }}</span>
-                                </router-link>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <router-link :to="{name: 'integrations.myOauthApps'}">
-                                    <fa icon="puzzle-piece" class="mr-1" />
-                                   <span v-if="!collapsed">{{ $t('Integrations') }}</span>
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link :to="{name: 'safety.log'}">
-                                    <fa icon="shield-halved" class="mr-1"/>
-                                   <span v-if="!collapsed"> {{ $t('Security') }}</span>
-                                </router-link>
-                            </li>
-                        
+                <div class="sidebar-footer">
+                    <ul>
+                        <li class="has-children" @click="toggleDropdown('account')">
+                            <a class="menu-title">
+                                <i class="pe-7s-user"></i>
+                                <span>{{ $t('Account') }}</span>
+                                <i class="arrow"></i>
+                            </a>
+                            <ul class="submenu" v-show="openDropdown === 'account'">
+                                <li>
+                                    <router-link to="/account" class="text-center">
+                                        <i class="pe-7s-user"></i>
+                                        <span>{{ $t('Account') }}</span>
+                                    </router-link>
+                                </li>
+
+                                <li>
+                                    <router-link :to="{name: 'integrations.myOauthApps'}">
+                                        <fa icon="puzzle-piece" class="mr-1" />
+                                        <span>{{ $t('Integrations') }}</span>
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{name: 'safety.log'}">
+                                        <fa icon="shield-halved" class="mr-1"/>
+                                        <span>{{ $t('Security') }}</span>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <button class="logout-button" @click="logout">
-                <i class="pe-7s-power"></i>
-                <span v-if="!collapsed">{{ $t('Sign Out') }}</span>
-            </button>
-        </div>
+                    <button type="button" class="logout-button" @click="logout">
+                        <i class="pe-7s-power"></i>
+                        <span>{{ $t('Sign Out') }}</span>
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
-    <div class="page-overlay" v-if="!collapsed" @click="collapsed = true"></div>
-
-</div>
 </template>
 
 <script>
@@ -113,8 +110,8 @@ export default {
     components: { SuplaLogo },
     data() {
         return {
-            collapsed: true,
-            openDropdown: null, 
+            showSidebar: false,
+            openDropdown: null,
         };
     },
     methods: {
@@ -130,7 +127,6 @@ export default {
             this.$router.push({ name: 'login' });
         },
         toggleDropdown(dropdown) {
-          
             if (this.openDropdown !== dropdown) {
                 this.openDropdown = dropdown;
             } else {
@@ -143,8 +139,7 @@ export default {
     },
     watch: {
         $route() {
-            this.collapsed = true;
-            this.openDropdown = null; 
+            this.openDropdown = null;
         }
     }
 };
@@ -153,227 +148,202 @@ export default {
 <style lang="scss">
 @import '../styles/mixins.scss';
 @import '../styles/variables.scss';
-.sidebar-wrapper {
-    position: relative;
 
-    .page-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
-        transition: opacity 0.3s;
+.sidebar-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.sidebar-trigger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 100vh;
+    z-index: 1001;
+    transition: width 0.2s;
+    
+    &:hover {
+        width: 15px;
+        background: rgba($supla-green, 0.1);
     }
 }
+
 .sidebar {
-    width: 200px;
+    width: 250px;
     height: 100vh;
+    background: rgba($supla-white, 0.98);
+    backdrop-filter: blur(5px);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background: $supla-white;
-    border-right: 1px solid #ddd;
-    transition: width 0.3s;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    overflow-x:auto;
+    z-index: 1002;
     
-    
-    transition: width 0.3s;
-
-    &.collapsed {
-        width: 60px;
-
-        .sidebar-nav span,
-        .sidebar-footer span {
-            display: none;
-        }
-    }
-
     .sidebar-header {
-        padding: 15px;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .logo{
-            height: 30px;
-            width: 30px;
+        padding: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        text-align: center;
+        
+        .logo {
+            height: 100px;
+            width: 100px;
         }
     }
     
     .sidebar-nav {
         flex: 1;
-        list-style: none;
-        justify-content: start;
-        padding: 0;
+        padding: 20px 0;
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-        gap: 5px;
-    &.expanded{
-        flex: 1;
-        list-style: none;
-        justify-content: start;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items:start;
-        gap: 5px;
-    }
-
+        overflow-y: auto;
+        
         li {
-            position: relative;
-            a,.menu-title {
+            a {
                 display: flex;
                 align-items: center;
-                padding: 10px 15px;
+                padding: 12px 20px;
                 color: $supla-black;
                 text-decoration: none;
-                cursor: pointer;
-                transition: background 0.3s;
-                gap: 10px;
-
+                transition: all 0.2s ease;
+                
+                
                 i {
-                font-size: 18px; 
-                min-width: 24px;  
-                text-align: center;
-            }
-
-                &:hover,
-                &:focus {
-                    background: $supla-green;
-                    color: $supla-white;
+                    font-size: 20px;
+                    min-width: 30px;
+                    text-align: center;
+                    text-decoration: none;
                 }
-            }
-            &.has-children .menu-title {
-                justify-content: space-between;
-            }
-            &.active > a {
-                background: $supla-green;
-                color: $supla-white;
+                
+                span {
+                    margin-left: 10px;
+                    white-space: nowrap;
+                }
+                
+                &:hover {
+                    background: rgba($supla-green, 0.1);
+                }
+                
+                &.link-active {
+                    background: rgba($supla-green, 0.15);
+                    border-left: 3px solid $supla-green;
+                }
             }
         }
-        .submenu {
-                background-color: rgba(255, 255, 255, 0.1);
-                list-style: none;
-                padding-left: 30px;
-                li {
-                    padding: 5px 0;
-                    a {
-                        font-size: 14px;
-                    }
-                }
-            }
-            .arrow::after {
-                content: '▼';
-                font-size: 10px;
-            }
         
+        .submenu {
+            background: rgba($supla-black, 0.02);
+            padding-left: 15px;
+            
+            li a {
+                padding: 10px 20px;
+                font-size: 14px;
+                text-decoration: none;
+                &:hover {
+            text-decoration: none; /* Assurance pour les états hover */
+        }
+            }
+        }
     }
-
-
+    
     .sidebar-footer {
-        padding: 10px 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-
-        .logout-button{
+        padding: 15px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        
+        .logout-button {
             display: flex;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
+            justify-content: center;
+            padding: 10px;
+            width: 100%;
             background: none;
             border: none;
-            color: red;
-            text-decoration: none;
-
-            i {
-                font-size: 18px;
-            }
-
-            &:hover {
-                color: $supla-red;
-            }
-        }
-        li {
-            position: relative;
-            a,.menu-title {
-                display: flex;
-                align-items: center;
-                padding: 10px 15px;
-                color: $supla-black;
-                text-decoration: none;
-                cursor: pointer;
-                transition: background 0.3s;
-                gap: 10px;
-
+            color: $supla-red;
+            cursor: pointer;
+            transition: all 0.2s;
             
-
-                &:hover,
-                &:focus {
-                    background: $supla-green;
-                    color: $supla-white;
-                }
+            &:hover {
+                background: rgba($supla-red, 0.1);
             }
-            &.has-children .menu-title {
-                justify-content: space-between;
-            }
-            &.active > a {
-                background: $supla-green;
-                color: $supla-white;
+            
+            i {
+                margin-right: 10px;
             }
         }
-        .submenu {
-                background-color: rgba(255, 255, 255, 0.1);
-                list-style: none;
-                padding-left: 30px;
-                li {
-                    padding: 5px 0;
-                    a {
-                        font-size: 14px;
-                    }
-                }
-            }
-            .arrow::after {
-                content: '▼';
-                font-size: 10px;
-            }
-   }
-   
-
-.sidebar-footer ul {
-    list-style: none;   
-    padding: 0;      
-    margin: 0; 
-}
-.sidebar-nav ul{
-    list-style: none;   
-    padding: 0;      
-    margin: 0;
-}
-
-
-}
-.page-content {
-    margin-left: 50px;
-    transition: margin-left 0.3s;
-
-    .sidebar.collapsed ~ & {
-        margin-left: 60px;
+    }
+    .submenu {
+    background: rgba($supla-black, 0.02);
+    padding-left: 15px;
+    list-style: none;
+    
+    a {
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        color: inherit;
+        
+        &:hover, &:focus {
+            text-decoration: none !important;
+        }
+        
+        i {
+            margin-right: 10px;
+        }
     }
 }
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    
+    .menu-title {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: $supla-black;
+        text-decoration: none !important;  // Add this line
+        cursor: pointer;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background: rgba($supla-green, 0.1);
+            text-decoration: none !important;  // Ensure no underline on hover
+        }
+        
+        i {
+            font-size: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        span {
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+    }
+    
+    // ... rest of your existing footer styles
+}
+}
 
+/* Animation */
+.slide-enter-active, .slide-leave-active {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.slide-enter-from, .slide-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+}
 
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar-trigger {
+        display: none;
+    }
+    
+    .sidebar {
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+    }
+}
 </style>

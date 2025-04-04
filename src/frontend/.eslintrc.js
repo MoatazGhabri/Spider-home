@@ -10,7 +10,8 @@ module.exports = {
         "plugin:cypress/recommended",
     ],
     parserOptions: {
-        parser: '@babel/eslint-parser'
+        parser: '@babel/eslint-parser',
+        requireConfigFile: false // Désactive l'erreur de config Babel
     },
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',

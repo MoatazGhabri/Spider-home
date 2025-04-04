@@ -1,57 +1,49 @@
 <template>
-    <div class="account-page"
-        v-title="$t('Account')">
-        <animated-svg id="user-account-bg"
-            :file="'assets/img/user-account-bg.svg' | withBaseUrl(false)"></animated-svg>
-        <div :class="'user-account-container ' + (animationFinished ? 'animation-finished' : '')">
-            <loading-cover :loading="!user">
-                <span class="supla-version">supla cloud {{ frontendVersion }}</span>
-                <transition name="fade">
-                    <div class="user-account"
-                        v-if="user">
-                        <h1>{{ user.email }}</h1>
-                        <dl class="no-margin">
-                            <dt>{{ $t('Server address') }}</dt>
-                            <dd>
-                                {{ suplaServerHost }}
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>{{ $t('Timezone') }}</dt>
-                            <dd>
-                                <timezone-picker :timezone="user.timezone"></timezone-picker>
-                            </dd>
-                        </dl>
-                        <div class="form-group text-center">
-                            <a class="btn btn-default"
-                                @click="changingNotifications = true">{{ $t('E-mail notifications') }}</a>
-                            <a class="btn btn-default"
-                                @click="showingLimits = true">{{ $t('Show my limits') }}</a>
-                        </div>
-                        <div class="text-center">
-                            <a class="btn btn-red-outline btn-xs"
-                                @click="deletingAccount = true">{{ $t('Delete my account') }}</a>
-                        </div>
-                    </div>
-                </transition>
-            </loading-cover>
+    <div class="account-container">
+        <div class="account-box">
+            <span class="top"></span>
+            <span class="right"></span>
+            <span class="bottom"></span>
+            <span class="left"></span>
+            <div class="account-left">
+
+                <div class="logo">
+                    <img src="./assets/logospiderhome.png" alt="logo">
+                </div>
+                <div class="delete-button">
+                    <a class="btn btn-red-outline btn-xs" @click="deletingAccount = true">
+                        {{ $t('Delete my account') }}
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="account-right">
+                <h2>Your E-mail: {{ user.email }}</h2>
+                <dl>
+                    <dt class="black">{{ $t('Server address') }}</dt>
+                    <dd>{{ suplaServerHost }}</dd>
+                </dl>
+                <dl>
+                    <dt class="black">{{ $t('Timezone') }}</dt>
+                    <dd><timezone-picker :timezone="user.timezone"></timezone-picker></dd>
+                </dl>
+                <div class="form-group">
+                    <a class="btn btn-default" @click="changingNotifications = true">{{ $t('E-mail notifications') }}</a>
+                    <a class="btn btn-default" @click="showingLimits = true">{{ $t('Show my limits') }}</a>
+                </div>
+            </div>
         </div>
+        
         <div v-if="user">
-            <account-opt-out-notifications-modal v-if="changingNotifications"
-                @cancel="closeOptOutNotificationsModal()"
-                :user="user"></account-opt-out-notifications-modal>
-            <account-limits-modal v-if="showingLimits"
-                @confirm="showingLimits = false"
-                :user="user"></account-limits-modal>
-            <account-delete-modal v-if="deletingAccount"
-                @cancel="deletingAccount = false"
-                :user="user"></account-delete-modal>
+            <account-opt-out-notifications-modal v-if="changingNotifications" @cancel="closeOptOutNotificationsModal()" :user="user"></account-opt-out-notifications-modal>
+            <account-limits-modal v-if="showingLimits" @confirm="showingLimits = false" :user="user"></account-limits-modal>
+            <account-delete-modal v-if="deletingAccount" @cancel="deletingAccount = false" :user="user"></account-delete-modal>
         </div>
     </div>
 </template>
 
 <script>
-    import AnimatedSvg from "./animated-svg";
     import TimezonePicker from "./timezone-picker";
     import AccountOptOutNotificationsModal from "./account-opt-out-notifications-modal";
     import AccountDeleteModal from "./account-delete-modal";
@@ -64,26 +56,20 @@
             AccountLimitsModal,
             AccountDeleteModal,
             TimezonePicker,
-            AnimatedSvg,
             AccountOptOutNotificationsModal,
         },
         data() {
             return {
                 user: undefined,
-                animationFinished: false,
                 deletingAccount: false,
                 showingLimits: false,
                 changingNotifications: false,
             };
         },
         mounted() {
-            setTimeout(() => this.animationFinished = true, 2000);
             this.$http.get('users/current').then(response => {
                 this.user = response.body;
             });
-            if (this.$route.query.optOutNotification) {
-                this.changingNotifications = true;
-            }
         },
         methods: {
             closeOptOutNotificationsModal() {
@@ -103,104 +89,104 @@
 </script>
 
 <style lang="scss">
-    @import '../styles/mixins';
     @import '../styles/variables';
+    @import '../styles/mixins';
 
-    ._account_view {
-        background-color: $supla-green;
-    }
-
-    .account-page {
-        margin-top: -23px;
-    }
-
-    #user-account-bg {
-        display: block;
-        width: 610px;
-        height: 650px;
-        position: absolute;
-        left: 50%;
-        margin-left: -305px;
-    }
-
-    .user-account-container {
-        width: 558px;
-        padding-top: 222px;
-        margin: 0 auto;
+    .account-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: $supla-blue;
         position: relative;
-        color: $supla-black;
-        .supla-version {
-            background: $supla-black;
-            border-radius: 15px;
-            padding: 2px 10px;
-            display: inline-block;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 15px;
-            font-weight: 400;
-            color: $supla-white;
-        }
-        .user-account {
-            margin-top: 14px;
-            border-radius: 3px;
-            padding: 15px;
-            height: 366px;
-            background: $supla-white;
-            h1 {
-                margin-top: 0;
-                text-transform: none;
-                border-bottom: solid 1px rgba(0, 0, 0, .2);
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                font-size: 36px;
-                line-height: 64px;
-            }
-            dt {
-                float: left;
-                clear: left;
-                width: 170px;
-                line-height: 25px;
-                font-weight: 400;
-            }
-            dd {
-                margin: 0 0 0 180px;
-                line-height: 25px;
-                color: $supla-green
-            }
-        }
+        
     }
 
-    @include on-xs-and-down {
-        .account-page {
-            margin-top: 0;
-        }
-        #user-account-bg {
-            display: none;
-        }
-        .user-account-container {
-            padding-top: 0;
-            width: 95%;
-            .user-account {
-                height: auto;
-            }
-        }
+    .supla-version {
+        
+        background: $supla-black;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 5px;
+        font-size: 0.9em;
     }
 
-    @include on-xs-and-up {
-        .user-account-container {
-            opacity: 0;
-            transition: opacity .3s;
-            .user-account {
-                opacity: 0;
-                transition: opacity .3s;
-                transition-delay: .4s;
-            }
-            &.animation-finished {
-                opacity: 1;
-                .user-account {
-                    opacity: 1;
-                }
-            }
-        }
+    .account-box {
+    display: flex;
+    width: 800px;
+    height: 400px; /* Adjust height as needed */
+    background: #fff;
+    border-radius: 50px; /* High border radius for the curved effect */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.account-left,
+.account-right {
+    padding: 20px;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+    .account-left {
+        width: 35%;
+        background-color: $supla-green;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 50px;
+    }
+
+    .account-left .logo img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .delete-button {
+        margin-top: 20px;
+    }
+
+    .account-right {
+        width: 65%;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .account-right h2 {
+        margin-bottom: 20px;
+        font-size: 2em;
+        text-align: center;
+        color: $supla-green;
+    }
+
+    .form-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    dt {
+        float: left;
+        clear: left;
+        width: 170px;
+        line-height: 25px;
+        font-weight: 400;
+    }
+    dd {
+         margin: 0 0 0 180px;
+        line-height: 25px;
+        color: $supla-green
+    }
+    .black{
+        
+        color: black;
     }
 </style>

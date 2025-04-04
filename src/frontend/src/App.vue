@@ -14,8 +14,14 @@
             <cookie-warning
                 v-if="frontendConfig.config.requireCookiePolicyAcceptance && currentUser.username && !currentUser.userData.agreements.cookies"></cookie-warning>
             <cloud-version-mismatch-warning-modal></cloud-version-mismatch-warning-modal>
+
+          
         </div>
+
         <page-footer :username="currentUser.username"></page-footer>
+
+        
+           
     </div>
 </template>
 
@@ -28,8 +34,15 @@
     import {useFrontendConfigStore} from "@/stores/frontend-config-store";
     import {useCurrentUserStore} from "@/stores/current-user-store";
 
+    import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
     const frontendConfig = useFrontendConfigStore();
     const currentUser = useCurrentUserStore();
+
+    
+
 </script>
 
 <style>

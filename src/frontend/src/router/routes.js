@@ -3,6 +3,8 @@ export default [
     {path: '/me', redirect: '/'}, // backward compat
     {path: '/home', component: () => import("@/home/home-page"), name: 'home'},
     {path: '/old-config', redirect: '/home'}, // backward compat
+    {path: '/iodevices', component: () => import("@/devices/list/io-devices"), name: 'me'},
+    {path: '/channels', component: () => import("@/channels/channel-list-page"), name: 'me'},
     {
         path: '/login',
         component: () => import("@/login/login-page"),

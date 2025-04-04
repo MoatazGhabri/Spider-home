@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="register-slider">
         <div class="register-slide-content">
             <transition name="fade">
@@ -17,9 +17,9 @@
             <i class="pe-7s-angle-left-circle"></i>
         </a>
     </div>
-</template>
+</template> -->
 
-<script>
+<!-- <script>
     export default {
         props: ['texts'],
         data() {
@@ -67,9 +67,9 @@
             clearTimeout(this.timeout);
         }
     };
-</script>
+</script> -->
 
-<style lang="scss">
+<!-- <style lang="scss">
     @import "../styles/variables";
 
     .register-slider {
@@ -98,4 +98,4 @@
             }
         }
     }
-</style>
+</style> -->
