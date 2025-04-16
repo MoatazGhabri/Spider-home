@@ -1,5 +1,5 @@
 <template>
-    <img src="./assets/logo.gif" alt="logo" class="spider">
+    <img src="./assets/logospiderhome.png" alt="logo" class="spider">
 </template>
 
 <script>

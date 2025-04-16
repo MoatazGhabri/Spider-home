@@ -11,7 +11,7 @@ defaultModules.set(PNotifyBootstrap3, {});
 
 function showNotification(title, text, type) {
     title = i18n.global.t(title);
-    text = i18n.global.t(text);
+    text = i18n.global.t(text); 
     return alert({title, text, type});
 }
 

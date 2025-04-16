@@ -1,5 +1,5 @@
 <template>
-    <div class="account-container">
+    <div class="acc-container">
         <div class="account-box">
             <span class="top"></span>
             <span class="right"></span>
@@ -92,12 +92,12 @@
     @import '../styles/variables';
     @import '../styles/mixins';
 
-    .account-container {
+    .acc-container {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: $supla-blue;
+   
         position: relative;
         
     }

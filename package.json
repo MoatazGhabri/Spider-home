@@ -1,6 +1,15 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "swiper": "^11.2.6"
+    "postcss-loader": "^8.1.1",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.3.3",
+    "swiper": "^11.2.6",
+    "vue": "^3.4.15",
+    "vuetify": "^3.8.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4"
   }
 }

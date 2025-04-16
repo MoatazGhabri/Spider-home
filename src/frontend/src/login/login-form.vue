@@ -46,7 +46,7 @@
              <form action="#">
                  <h1 style="font-weight: bold;">Registration</h1>
                  <div class="input-box">
-                     <input type="text" placeholder="Username" required>
+                     <input type="text" placeholder="Username"   class="form-control" required>
                      <i class='bx bxs-user'></i>
                  </div>
                  <div class="input-box">
@@ -68,7 +68,7 @@
                      <!-- <input type="password" placeholder="Password" required> -->
                      <input type="password"
                     @blur="passwordTouched = true"
-                    placeholder="Username"
+                    placeholder="Password"
                     id="password"
                     class="form-control"
                     v-model="password">
@@ -79,6 +79,7 @@
                  <input type="password"
                     id="password-confirm"
                     @blur="passwordConfirmTouched = true"
+                    placeholder="Confirm your Password"
                     class="form-control"
                     v-model="confirmPassword">
                 
@@ -199,8 +200,7 @@ export default {
  @import '../styles/mixins';
  @import '../styles/variables';
 
-
- .error{
+.error{
     color: $supla-red;
  }
  .succes{
@@ -249,7 +249,7 @@ a{
     font-size: 20px;
     cursor: pointer;
 }
-.body{
+
 .btn-close {
     position: absolute;
     top: 10px;
@@ -268,15 +268,7 @@ a{
     min-height: 100vh;
 }
 
-.container_login{
-   position: relative;
-   width: 850px;
-   height: 450px;
-   background: #fff;
-   margin: 20px;
-   border-radius: 30px;
-   box-shadow: 0 0 30px rgba(0, 0, 0, .2);
-   overflow: hidden;
+
 .container_login{
    position: relative;
    width: 850px;
@@ -402,9 +394,6 @@ img{
    font-weight: 600;
 }
 
-.social-icons{
-   display: flex;
-   justify-content: center;
 .input-box{
    position: relative;
    margin: 30px 0;
@@ -570,7 +559,10 @@ img{
 
 @media screen and (max-width: 650px){
    .container_login{ height: calc(100vh - 40px); }
-
+   img{
+    width: 75px;
+    height: 75px;
+   }
    .form-box{
        bottom: 0;
        width: 100%;
@@ -617,6 +609,14 @@ img{
    .form-box { padding: 20px; }
 
    .toggle-panel h1{font-size: 30px; }
+   img{
+    width: 75px;
+    height: 75px;
+   }
+   .toggle-panel .btnn{
+       width: 100px;
+       height: 40px;
+   }
 }
 
 </style>

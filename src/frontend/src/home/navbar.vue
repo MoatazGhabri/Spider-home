@@ -1,16 +1,21 @@
 <template>
+     <div>
+   
     <div class="sidebar-container">
-        <div class="sidebar-trigger" @mouseenter="showSidebar = true"></div>
         
         <transition name="slide">
-            <div class="sidebar" 
-                 v-show="showSidebar"
-                 @mouseleave="showSidebar = false">
-                
+            <div class="sidebar" v-show="isSidebarVisible">
+                <button type="button" class="toggle-sidebar" @click="toggleSidebar">
+            <span>◀</span>
+          </button>
                 <div class="sidebar-header">
                     <router-link :to="{ name: 'home' }" class="sidebar-brand">
+                        <div class="logo-container">
                         <supla-logo class="logo"></supla-logo>
+                        </div>
+                        
                     </router-link>
+                    
                 </div>
 
                 <ul class="sidebar-nav">
@@ -18,6 +23,12 @@
                         <router-link :to="{ name: 'me' }" active-class="link-active">
                             <i class="pe-7s-plug"></i>
                             <span>{{ $t('SpiderHome') }}</span>
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link to="/dash">
+                            <i class="pe-7s-key"></i>
+                            <span>{{ $t('Dashboard') }}</span>
                         </router-link>
                     </li>
 
@@ -42,14 +53,17 @@
                         </router-link>
                     </li>
 
-                    <li class="has-children" @click="toggleSubmenu('automation')">
-                        <div class="menu-title">
-                            <a class="dropdown-toggle" @click="toggleDropdown('automation')">
-                                <i class="pe-7s-config"></i>
+                    <li class="has-children" @click="toggleDropdown('automation')">
+                       
+                            <a class="menu-title">
+                            <i class="pe-7s-config"></i>
                                 <span>Automation</span>
                                 <i class="arrow"></i>
                             </a>
-                        </div>
+                            <!-- <a class="dropdown-toggle" @click="toggleDropdown('automation')">
+                              
+                            </a> -->
+                       
                         <ul class="submenu" v-show="openDropdown === 'automation'">
                             <li><router-link :to="{ name: 'schedules' }"><i class="pe-7s-clock mr-1"></i><span> {{ $t('Schedules') }} </span></router-link></li>
                             <li><router-link :to="{ name: 'channelGroups' }"><i class="pe-7s-keypad mr-1"></i><span> {{ $t('Channel groups') }}</span></router-link></li>
@@ -58,10 +72,10 @@
                             <li><router-link :to="{ name: 'reactions' }"><i class="pe-7s-arc mr-1"></i><span> {{ $t('Reactions') }}</span></router-link></li>
                         </ul>
                     </li>
+                  
                 </ul>
 
                 <div class="sidebar-footer">
-                    <ul>
                         <li class="has-children" @click="toggleDropdown('account')">
                             <a class="menu-title">
                                 <i class="pe-7s-user"></i>
@@ -90,7 +104,7 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
+                  
                     <button type="button" class="logout-button" @click="logout">
                         <i class="pe-7s-power"></i>
                         <span>{{ $t('Sign Out') }}</span>
@@ -98,7 +112,13 @@
                 </div>
             </div>
         </transition>
+
+        <button type="button" class="toggle-sidebar" @click="toggleSidebar" v-if="!isSidebarVisible">
+        <span>▶</span>
+      </button>
     </div>
+    <div class="body" :class="{ 'sidebar-open': isSidebarVisible }">  </div>
+</div>
 </template>
 
 <script>
@@ -106,12 +126,14 @@ import SuplaLogo from "./supla-logo";
 import { mapStores } from "pinia";
 import { useCurrentUserStore } from "@/stores/current-user-store";
 
+
 export default {
     components: { SuplaLogo },
     data() {
         return {
             showSidebar: false,
             openDropdown: null,
+            isSidebarVisible: false
         };
     },
     methods: {
@@ -133,6 +155,9 @@ export default {
                 this.openDropdown = null; 
             }
         },
+        toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    }
     },
     computed: {
         ...mapStores(useCurrentUserStore),
@@ -154,196 +179,302 @@ export default {
     left: 0;
     top: 0;
     height: 100vh;
-    z-index: 1000;
-}
-
-.sidebar-trigger {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 10px;
-    height: 100vh;
     z-index: 1001;
-    transition: width 0.2s;
-    
-    &:hover {
-        width: 15px;
-        background: rgba($supla-green, 0.1);
-    }
 }
 
 .sidebar {
-    width: 250px;
+    width: 210px;
     height: 100vh;
-    background: rgba($supla-white, 0.98);
-    backdrop-filter: blur(5px);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #011627;
     display: flex;
     flex-direction: column;
-    z-index: 1002;
-    
+    position: relative;
+    transition: all 0.3s ease;
+
     .sidebar-header {
-        padding: 20px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 2rem 1.5rem;
         text-align: center;
-        
-        .logo {
-            height: 100px;
-            width: 100px;
-        }
-    }
-    
-    .sidebar-nav {
-        flex: 1;
-        padding: 20px 0;
-        margin: 0;
-        overflow-y: auto;
-        
-        li {
-            a {
-                display: flex;
-                align-items: center;
-                padding: 12px 20px;
-                color: $supla-black;
-                text-decoration: none;
-                transition: all 0.2s ease;
-                
-                
-                i {
-                    font-size: 20px;
-                    min-width: 30px;
-                    text-align: center;
-                    text-decoration: none;
-                }
-                
-                span {
-                    margin-left: 10px;
-                    white-space: nowrap;
-                }
-                
-                &:hover {
-                    background: rgba($supla-green, 0.1);
-                }
-                
-                &.link-active {
-                    background: rgba($supla-green, 0.15);
-                    border-left: 3px solid $supla-green;
-                }
-            }
-        }
-        
-        .submenu {
-            background: rgba($supla-black, 0.02);
-            padding-left: 15px;
-            
-            li a {
-                padding: 10px 20px;
-                font-size: 14px;
-                text-decoration: none;
-                &:hover {
-            text-decoration: none; /* Assurance pour les états hover */
-        }
-            }
-        }
-    }
-    
-    .sidebar-footer {
-        padding: 15px;
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
-        
-        .logout-button {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            background: $supla-grey;
+            border-radius: 12px;
+
+            .logo {
+                width: 100%;
+                height: 100%;
+                 padding-left: 10px;
+            }
+        }
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: 1.5rem 1rem;
+        margin: 0;
+        list-style: none;
+
+        li {
+            margin: 0.5rem 0;
+
+            a, .menu-title {
+                display: flex;
+                 align-items: left;
+                padding: 0.875rem 1.25rem;
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                // transition: all 0.2s ease;
+                border-radius: 8px;
+                font-size: 1rem;
+
+                i {
+                    font-size: 1.5rem;
+                    margin-right: 1.25rem;
+                    width: 1.5rem;
+                    text-align: center;
+                }
+
+                span {
+                    font-weight: 500;
+                }
+
+                &:hover, &.link-active {
+                    color: white;
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+            }
+
+            &.has-children {
+                .menu-title {
+                    cursor: pointer;
+                    text-align: left !important;
+
+
+                    a.dropdown-toggle {
+                   
+                    align-items: left !important;
+                    
+                }
+                    .arrow {
+                        margin-left: 1rem;
+                        font-size: 0.75rem;
+                    }
+                }
+
+                .submenu {
+                    list-style: none;
+                    padding: 0.5rem 0;
+                    margin: 0.5rem 0;
+                    background-color: rgba(0, 0, 0, 0.2);
+                    border-radius: 8px;
+
+                    li {
+                        margin: 0.25rem 0;
+
+                        a {
+                            padding: 0.75rem 1rem 0.75rem 3.5rem;
+                            font-size: 0.95rem;
+
+                            i {
+                                font-size: 1.25rem;
+                                width: 1.25rem;
+                                margin-right: 1rem;
+                            }
+                        }
+                    }
+                }
+
+                .arrow {
+                    transition: transform 0.2s ease;
+
+                    &::after {
+                        content: '▼';
+                    }
+                }
+
+                &.active .arrow {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    .sidebar-footer {
+        padding: 1.5rem 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-left: 0;
+
+        li {
+            margin: 0.5rem 0;
+            list-style: none; 
+
+            a, .menu-title {
+                display: flex;
+                align-items: left;
+                padding: 0.875rem 1.25rem;
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border-radius: 8px;
+                font-size: 1rem;
+
+                i {
+                    font-size: 1.5rem;
+                    margin-right: 1.25rem;
+                    width: 1.5rem;
+                    text-align: center;
+                }
+
+                span {
+                    font-weight: 500;
+                }
+
+                &:hover, &.link-active {
+                    color: white;
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+            }
+
+            &.has-children {
+                .menu-title {
+                    cursor: pointer;
+                    
+
+
+                    .arrow {
+                        margin-left: 1rem;
+                        font-size: 0.75rem;
+                    }
+                }
+
+                .submenu {
+                    list-style: none;
+                    padding: 0.5rem 0;
+                    margin: 0.5rem 0;
+                    background-color: rgba(0, 0, 0, 0.2);
+                    border-radius: 8px;
+
+                    li {
+                        margin: 0.25rem 0;
+
+                        a {
+                            padding: 0.75rem 1rem 0.75rem 3.5rem;
+                            font-size: 0.95rem;
+
+                            i {
+                                font-size: 1.25rem;
+                                width: 1.25rem;
+                                margin-right: 1rem;
+                            }
+                        }
+                    }
+                }
+
+                .arrow {
+                    transition: transform 0.2s ease;
+
+                    &::after {
+                        content: '▼';
+                    }
+                }
+
+                &.active .arrow {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .logout-button {
             width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
             background: none;
             border: none;
-            color: $supla-red;
             cursor: pointer;
-            transition: all 0.2s;
-            
-            &:hover {
-                background: rgba($supla-red, 0.1);
-            }
-            
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            font-size: 1rem;
+
             i {
-                margin-right: 10px;
+                font-size: 1.5rem;
+                margin-right: 1.25rem;
+                width: 1.5rem;
+                text-align: center;
+            }
+
+            span {
+                font-weight: 500;
+            }
+
+            &:hover {
+                color: white;
+                background-color: rgba(255, 255, 255, 0.1);
             }
         }
     }
-    .submenu {
-    background: rgba($supla-black, 0.02);
-    padding-left: 15px;
-    list-style: none;
-    
-    a {
-        text-decoration: none !important;
-        display: flex;
-        align-items: center;
-        color: inherit;
-        
-        &:hover, &:focus {
-            text-decoration: none !important;
-        }
-        
-        i {
-            margin-right: 10px;
-        }
-    }
-}
-.sidebar-footer {
-    padding: 15px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    
-    .menu-title {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: $supla-black;
-        text-decoration: none !important;  // Add this line
-        cursor: pointer;
-        transition: all 0.2s ease;
-        
-        &:hover {
-            background: rgba($supla-green, 0.1);
-            text-decoration: none !important;  // Ensure no underline on hover
-        }
-        
-        i {
-            font-size: 20px;
-            min-width: 30px;
-            text-align: center;
-        }
-        
-        span {
-            margin-left: 10px;
-            white-space: nowrap;
-        }
-    }
-    
-    // ... rest of your existing footer styles
-}
 }
 
-/* Animation */
-.slide-enter-active, .slide-leave-active {
-    transition: transform 0.3s ease, opacity 0.3s ease;
+.toggle-sidebar {
+    position: absolute;
+    right: -36px;
+    top: 1rem;
+    width: 36px;
+    height: 48px;
+    background-color: #011627;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 8px 0;
+    transition: all 0.2s ease;
+
+    span {
+        font-size: 1.25rem;
+    }
+
+    &:hover {
+        background-color: lighten(#011627, 10%);
+    }
 }
-.slide-enter-from, .slide-leave-to {
+
+.body {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+
+    &.sidebar-open {
+        margin-left: 280px;
+    }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
     transform: translateX(-100%);
-    opacity: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .sidebar-trigger {
-        display: none;
-    }
-    
     .sidebar {
-        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+    .body.sidebar-open {
+        margin-left: 0;
     }
 }
 </style>

@@ -120,4 +120,27 @@ export default {
     width: 100px;
     margin-right: 10px;
 }
+@media (max-width: 768px) {
+    .router {
+        display: none;
+    }
+    
+   
+    
+}
+
+@media (max-width: 480px) {
+   
+    .router {
+        display: none;
+    }
+   
+}
+@media (max-width: 360px) {
+    
+    .router {
+        display: none;
+    }
+   
+}
 </style>

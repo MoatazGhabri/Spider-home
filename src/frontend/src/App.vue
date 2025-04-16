@@ -34,8 +34,7 @@
     import {useFrontendConfigStore} from "@/stores/frontend-config-store";
     import {useCurrentUserStore} from "@/stores/current-user-store";
 
-    import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 
     const frontendConfig = useFrontendConfigStore();

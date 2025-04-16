@@ -280,6 +280,7 @@ export default [
         ]
     },
     {path: '/smartphones', component: () => import("@/client-apps/client-apps-page")},
+    {path: '/dash', component: () => import("@/devices/list/dash")},
     {
         path: "/agree-on-rules",
         component: () => import("@/common/errors/error-agree-on-rules"),

@@ -1,4 +1,5 @@
 <template class="template">
+
     <div class="body">
         <div>
             <loading-cover :loading="!devices">
@@ -16,9 +17,8 @@
                                 <p class="feature-description">Manage all your connected devices</p>
                                 <div class="hover-effect"></div>
                             </router-link>
-                       
+                            <div class="border-light"></div>
                         </square-link>
-                        <div class="border-light"></div>
 </div>
 <div class="card-wrapper">
                         <square-link class="feature-card channels">
@@ -31,8 +31,8 @@
                                 <p class="feature-description">Control your automation channels</p>
                                 <div class="hover-effect"></div>
                             </router-link>
+                            <div class="border-light"></div>
                         </square-link>
-                        <div class="border-light"></div>
                         </div>
                     </div>
 
@@ -54,15 +54,16 @@
                                                 <square-link class="discovery-card">
                                                     <a href="https://spiderhome.org/" target="_blank" class="card-content">
                                                         <div class="card-icon">
-                                                            <i v-if="possibleDevice.icon" :class="possibleDevice.icon"></i>
-                                                            <img v-else :src="'/assets/img/' + possibleDevice.image" :alt="$t(possibleDevice.title)">
+                                                            <i v-if="possibleDevice.icon" :class="possibleDevice.icon">{{ possibleDevice.icon }}</i>
+                                                            <img v-if="possibleDevice.image" :src="require(`@/assets/img/${possibleDevice.image}`)" :alt="possibleDevice.title">
+
                                                         </div>
                                                         <h3 class="card-title">{{ $t(possibleDevice.title) }}</h3>
                                                         <p class="card-description">{{ $t(possibleDevice.description) }}</p>
                                                         <div class="card-hover"></div>
                                                     </a>
+                                                    <div class="border-light"></div>
                                                 </square-link>
-                                                <div class="border-light"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,52 +103,49 @@
                 currentIndex: 0,
                 itemsPerSlide: 3, 
                 possibleDevices: [
-                {
-                        icon: 'pe-7s-light',
-                        title: 'Lighting',
-                        description: 'You can operate the lights in your home or office',
-                    },
-                    {
-                        image: 'thermometer.svg',
-                        title: 'Temperature',
-                        description: '...you can monitor temperature',
-                    },
-                    {
-                        image: 'gate.svg',
-                        title: 'Doors and gates',
-                        description: '...open gateways, gates or doors',
-                    },
-                    {
-                        image: 'window-rollers.svg',
-                        title: 'Roller shutters',
-                        description: '...open and shut roller shutters',
-                    },
-                    {
-                        icon: 'pe-7s-radio',
-                        title: 'Home appliances',
-                        description: '...or control home appliances',
-                    },
-                    {
-                        icon: 'pe-7s-smile',
-                        title: 'And more',
-                        description: 'All the above and many more can be done from your phone or tablet',
-                    },
-                    {
-                        icon: 'pe-7s-plane',
-                        title: 'From anywhere',
-                        description: 'SPIDER HOME is available from anywhere at any time, so do not worry, if you forget to turn the lights off next time',
-                    },
-                    {
-                        icon: 'pe-7s-light',
-                        title: 'Lighting',
-                        description: 'You can operate the lights in your home or office',
-                    },
-                    {
-                        image: 'thermometer.svg',
-                        title: 'Temperature',
-                        description: '...you can monitor temperature',
-                    },
-                ],
+    {
+        icon: '💡', // Light bulb emoji
+        title: 'Lighting',
+        description: 'You can operate the lights in your home or office',
+        link:'ttps://spiderhome.org/produits/controler-leclairage/',
+    },
+    {
+        icon: '🌡️', // Thermometer emoji
+        title: 'Temperature',
+        description: '...you can monitor temperature',
+        link:'https://spiderhome.org/produits/',
+    },
+    {
+        icon: '🚪', // Door emoji
+        title: 'Doors and gates',
+        description: '...open gateways, gates or doors',
+        link:'https://spiderhome.org/produits/controle-les-portails/',
+    },
+    {
+        image: 'volet.png', // Window emoji
+        title: 'Roller shutters',
+        description: '...open and shut roller shutters',
+        link:'https://spiderhome.org/produits/controlez-les-stores/',
+    },
+    {
+        image: 'radio.png', // Plug emoji
+        title: 'Home appliances',
+        description: '...or control home appliances',
+        link:'https://spiderhome.org/produits/electronique-de-commande/',
+    },
+    {
+        icon: '😊', // Smile emoji
+        title: 'And more',
+        description: 'All the above and many more can be done from your phone or tablet',
+        link:'https://spiderhome.org/',
+    },
+    {
+        icon: '✈️', // Airplane emoji
+        title: 'From anywhere',
+        description: 'SPIDER HOME is available from anywhere at any time, so do not worry, if you forget to turn the lights off next time',
+        link:'https://spiderhome.org/ou-acheter/',
+    },
+],
             };
         },
         beforeMount() {
@@ -195,8 +193,7 @@
     @import "../../styles/variables";
    
     body {
-        // background: linear-gradient(135deg, #1a2a4a 0%, #0d1a2f 100%);
-        background-image: url('../assets/backgroundspiderhome.jpg');
+        background: rgba(51, 176, 223, 0.05);
         min-height: 100vh;
         padding: 20px 0;
     }
@@ -207,7 +204,6 @@
         padding: 0 20px;
     }
 
-    /* Feature Cards Section */
     .dashboard-highlights {
         display: flex;
         justify-content: center;
@@ -216,39 +212,88 @@
         perspective: 1000px;
     }
 
-
     .card-wrapper {
         position: relative;
         flex: 1;
         min-width: 280px;
         max-width: 400px;
         height: 300px;
+    }
+
+    .feature-card {
+        position: relative;
+        border: none;
+        height: 100%;
+        width: 100%;
         
+        .border-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            padding: 4px; /* Increased stroke size */
+            pointer-events: none;
+            animation: borderRotate 10s linear infinite;
+            background: linear-gradient(90deg, $supla-red, $supla-blue, $supla-red, $supla-red);
+            background-size: 400% 400%;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1;
+            
+            @supports (-webkit-mask: none) or (mask: none) {
+                -webkit-mask: 
+                    linear-gradient(#fff 0 0) content-box, 
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+            }
+        }
+        
+        &:hover {
+            .border-light {
+                opacity: 1;
+            }
+        }
     }
-
-    .border-light {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 16px;
-        padding: 2px; 
-        @supports (-webkit-mask: linear-gradient(white, white)) or (mask: linear-gradient(white, white)) {
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
-        pointer-events: none;
-        animation: borderRotate 10s linear infinite;
-        background: linear-gradient(90deg, $supla-red, $supla-blue, $supla-green, $supla-yellow);
-        background-size: 400% 400%;
+    .discovery-card {
+        position: relative;
+        border: none;
+        height: 100%;
+        width: 100%;
+        
+        .border-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            padding: 4px; /* Increased stroke size */
+            pointer-events: none;
+            animation: borderRotate 10s linear infinite;
+            background: linear-gradient(90deg, $supla-red, $supla-blue, $supla-red, $supla-red);
+            background-size: 400% 400%;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1;
+            
+            @supports (-webkit-mask: none) or (mask: none) {
+                -webkit-mask: 
+                    linear-gradient(#fff 0 0) content-box, 
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+            }
+        }
+        
+        &:hover {
+            .border-light {
+                opacity: 1;
+            }
+        }
     }
-
-
-
     @keyframes borderRotate {
         0% {
             background-position: 0% 50%;
@@ -261,13 +306,6 @@
         }
     }
 
-    .feature-card, .discovery-card {
-        border: none; 
-    }
-
-    
-
-
     @media (max-width: 768px) {
         .card-wrapper {
             width: 100%;
@@ -276,40 +314,40 @@
         }
     }
 
-
-
     .feature-card {
-        flex: 1;
-        min-width: 280px;
-        max-width: 400px;
-        height: 300px;
-        border-radius: 16px;
-        overflow: hidden;
+        background: linear-gradient(135deg, #218fb8 0%, #1a7a9d 100%);
+        color: white;
+        padding: 3.5rem 2.5rem;
+        border-radius: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        min-height: 200px;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 40px rgba(33, 143, 184, 0.25);
         position: relative;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.08);
-        
-        &:hover {
-            //  transform: translateY(-8px) scale(1.03);
-            //  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-            
-            .hover-effect {
-                opacity: 1;
-            }
-        } 
-        
-        &.io-devices {
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.25) 0%, rgba(24, 100, 189, 0.25) 100%);
-        }
-        
-        &.channels {
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.25) 0%, rgba(24, 100, 189, 0.25) 100%);
-        }
+        overflow: hidden;
+    }
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at top right, rgba(255,255,255,0.15) 0%, transparent 70%);
+        pointer-events: none;
     }
 
+    .feature-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(33, 143, 184, 0.35);
+    }
+    
     .feature-content {
         display: flex;
         flex-direction: column;
@@ -334,8 +372,6 @@
         position: relative;
         z-index: 2;
     }
-
-   
 
     .feature-title {
         font-size: 24px;
@@ -364,35 +400,40 @@
         transition: opacity 0.4s ease;
         z-index: 1;
     }
-
    
     .discovery-section {
         margin: 60px auto;
         max-width: 1200px;
     }
 
+
     .section-title {
-        text-align: center;
-        color: white;
-        margin-bottom: 30px;
-        font-size: 28px;
-        font-weight: 500;
-        position: relative;
-        
-        &::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: $supla-red;
-            margin: 15px auto 0;
-            border-radius: 3px;
-        }
-    }
+  text-align: center;
+  color: #0c103d;
+  margin: 0 0 3rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #f7495e 50%, transparent 100%);
+}
+   
 
     .carousel-container {
         position: relative;
-        padding: 0 40px;
+        padding: 0 100px;
     }
 
     .carousel-wrapper {
@@ -403,7 +444,7 @@
     .carousel {
         overflow: hidden;
         width: 100%;
-        margin: 0 15px;
+        margin: 3 15px;
     }
 
     .carousel-inner {
@@ -411,10 +452,12 @@
         transition: transform 0.5s ease;
     }
 
+    
     .carousel-slide {
-        display: flex;
-        width: 100%;
-    }
+    display: flex;
+    width: 100%;
+    padding: 10px 0; /* Add some vertical padding */
+}
 
     .carousel-item {
         flex: 0 0 calc(100% / 3);
@@ -423,33 +466,47 @@
     }
 
     .discovery-card {
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-        border-radius: 12px;
-        backdrop-filter: blur(10px);
-        height: 100%;
-        width: 100%;
+        background: linear-gradient(135deg, #33b0df 0%, #218fb8 100%);
+        color: white;
+        padding: 2.5rem 2rem; 
+        margin: 10px 0;
+        border-radius: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        min-height: 250px;
         transition: all 0.3s ease;
+        box-shadow: 0 8px 30px rgba(51, 176, 223, 0.2);
         position: relative;
         overflow: hidden;
-        border: 1px  $supla-blue;
-        
-        &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            
-            .card-hover {
-                opacity: 1;
-            }
-        }
+    }
+    
+    .discovery-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%);
+        pointer-events: none;
     }
 
+    .discovery-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(51, 176, 223, 0.3);
+    }
+    
     .card-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 30px 20px;
         text-decoration: none;
-        color: white;
+        color: $supla-blue;
         height: 100%;
         box-sizing: border-box;
         position: relative;
@@ -457,20 +514,27 @@
     }
 
     .card-icon {
-        margin-bottom: 20px;
-        
-        i {
-            font-size: 50px;
-            color: rgba(255,255,255,0.9);
-        }
-        
-        img {
-            width: 50px;
-            height: auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.9;
-        }
+    margin-bottom: 20px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+        font-size: 50px;
+        line-height: 1;
+        font-style: normal;
     }
+    
+    img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+       
+        opacity: 0.9;
+    }
+}
 
     .card-title {
         font-size: 18px;
@@ -501,7 +565,7 @@
 
     /* Carousel Navigation */
     .carousel-button {
-        background: rgba(255, 255, 255, 0.15);
+        background: $supla-blue;
         border: none;
         border-radius: 50%;
         width: 40px;
@@ -517,7 +581,7 @@
         backdrop-filter: blur(5px);
         
         &:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: $supla-blue-li;
             transform: scale(1.1);
         }
     }
@@ -531,7 +595,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: $supla-blue-li;
             margin: 0 6px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -559,7 +623,6 @@
         from { transform: rotate(0deg); }
         to { transform: rotate(-360deg); }
     }
-
    
     @media (max-width: 1024px) {
         .carousel-item {
@@ -572,7 +635,10 @@
             flex-direction: column;
             align-items: center;
         }
-        
+       .discovery-card{
+            width: 50%;
+            height: 50%;
+        }
         .feature-card {
             width: 100%;
             max-width: 350px;
@@ -601,5 +667,10 @@
         .carousel-container {
             padding: 0 20px;
         }
+        .discovery-card{
+            width: 50%;
+            height: 50%;
+        }
     }
+    
 </style>
