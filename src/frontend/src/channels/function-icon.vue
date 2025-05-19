@@ -1,19 +1,31 @@
 <template>
-    <span class="channel-icon"
-        v-if="functionId !== undefined">
+    <span class="channel-icon" v-if="functionId !== undefined">
         <template v-if="model.userIconId || userIcon">
-            <img :src="userIconSrc" :style="{maxWidth: imageWidth + 'px', maxHeight: imageWidth + 'px'}">
-            <!-- Double icon display for HUMIDITYANDTEMPERATURE function. -->
-            <img :src="userIconSrcForState(1)"
+            <img 
+                class="icon-image"
+                :src="userIconSrc" 
+                :style="imageStyle"
+            >
+            <!-- Double icon display for HUMIDITYANDTEMPERATURE function -->
+            <img 
+                class="icon-image"
+                :src="userIconSrcForState(1)"
                 v-if="functionId === 45"
-                :style="{maxWidth: imageWidth + 'px', maxHeight: imageWidth + 'px'}">
+                :style="imageStyle"
+            >
         </template>
         <template v-else>
-            <img :src="'/assets/img/functions/' + functionId + alternativeSuffix + '-hum.svg' | withBaseUrl"
+            <img 
+                class="icon-image"
+                :src="'/assets/img/functions/' + functionId + alternativeSuffix + '-hum.svg' | withBaseUrl"
                 v-if="functionId === 45"
-                :width="imageWidth" :height="imageWidth">
-            <img :src="'/assets/img/functions/' + functionId + alternativeSuffix + stateSuffix + '.svg' | withBaseUrl"
-                :width="imageWidth" :height="imageWidth">
+                :style="imageStyle"
+            >
+            <img 
+                class="icon-image"
+                :src="'/assets/img/functions/' + functionId + alternativeSuffix + stateSuffix + '.svg' | withBaseUrl"
+                :style="imageStyle"
+            >
         </template>
     </span>
 </template>
@@ -104,7 +116,14 @@
                 } else {
                     return this.width;
                 }
-            }
+            },
+            imageStyle() {
+            return {
+                width: `${this.imageWidth}px`,
+                height: `${this.imageWidth}px`,
+                display: 'block'
+            };
+        }
         },
         methods: {
             userIconSrcForState(stateIndex) {
@@ -121,8 +140,8 @@
 <style lang="scss">
     .channel-icon {
         line-height: 0;
-        img {
-            max-width: 100%;
-        }
+        .icon-image {
+        object-fit: contain;
+    }
     }
 </style>

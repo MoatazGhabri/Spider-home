@@ -354,11 +354,11 @@ table {
 }
 
 body.green {
-  background-color: $supla-green;
+  // background-color: $supla-green;
   color: $supla-white;
 
   &.darker {
-    background-color: darken($supla-green, 6%);
+    // background-color: darken($supla-green, 6%);
   }
 
   ::selection {
@@ -752,12 +752,21 @@ code {
       }
     }
   }
+
+  .vue-switcher-theme--default.vue-switcher-color--green div {
+    background-color: #007BFF !important;
+  }
+
+  .vue-switcher input[type="checkbox"]:checked + div {
+    background-color: #007BFF !important;
+  }
+  
 }
 
 @import "./buttons";
 @import "./checkbox";
 @import "./notifications";
-@import "./register-pages";
+
 @import "./tooltips";
 @import "./spacing";
 @import "./bootstrap-future";

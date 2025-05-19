@@ -85,11 +85,11 @@
                         </div>
                         <div v-else-if="settings.hasLocalCredentials"
                             class="alert alert-info">
-                            {{ $t('In order to get the MQTT Broker credentials, concact the administator of this SUPLA Cloud instance.') }}
+                            {{ $t('In order to get the MQTT Broker credentials, concact the administator of this SPIDER HOME  instance.') }}
                         </div>
                         <div v-else
                             class="alert alert-warning">
-                            {{ $t('MQTT Broker username and password is not configured in this SUPLA Cloud instance.') }}
+                            {{ $t('MQTT Broker username and password is not configured in this SPIDER HOME instance.') }}
                         </div>
                     </div>
                 </div>

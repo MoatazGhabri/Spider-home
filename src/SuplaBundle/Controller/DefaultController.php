@@ -73,7 +73,7 @@ class DefaultController extends AbstractController {
      */
     public function getApiDocsSchemaAction() {
         $yaml = file_get_contents(\AppKernel::ROOT_PATH . '/config/supla-api-docs.yaml');
-        $yaml = str_replace('https://cloud.supla.org', $this->suplaUrl, $yaml);
+        $yaml = str_replace('https://cloud.spiderhome.org', $this->suplaUrl, $yaml);
         return new Response($yaml, Response::HTTP_OK, ['Content-Type' => 'application/yaml']);
     }
 
@@ -129,9 +129,9 @@ class DefaultController extends AbstractController {
                 __DIR__ . '/../Enums',
                 __DIR__ . '/../Model',
             ]);
-            $openapi->info = new OA\Info(['title' => 'SUPLA Cloud API', 'version' => $version]);
+            $openapi->info = new OA\Info(['title' => 'SPIDER HOME  API', 'version' => $version]);
             $yaml = $openapi->toYaml();
-            $yaml = str_replace('https://cloud.supla.org', $this->suplaUrl, $yaml);
+            $yaml = str_replace('https://cloud.spiderhome.org', $this->suplaUrl, $yaml);
             $cacheItem->set($yaml);
             $this->openApiCache->save($cacheItem);
         }

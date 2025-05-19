@@ -18,7 +18,7 @@ class InitializeCommand extends Command {
     protected function configure() {
         $this
             ->setName('supla:initialize')
-            ->setDescription('Initializes SUPLA Cloud.');
+            ->setDescription('Initializes SPIDER HOME.');
     }
 
     /** @inheritdoc */

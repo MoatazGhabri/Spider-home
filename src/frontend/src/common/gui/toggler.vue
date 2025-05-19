@@ -15,7 +15,7 @@
         components: {Switches},
         computed: {
             trueColorValue() {
-                return this.trueColor || 'green';
+                return this.trueColor || 'blue';
             },
             model: {
                 set(value) {

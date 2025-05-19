@@ -8,8 +8,7 @@
                 <tr>
                     <td>
                         <button-loading-dots v-if="saving"></button-loading-dots>
-                        <i v-else
-                            :class="enabledUntil ? 'pe-7s-attention' : 'pe-7s-close-circle'"></i>
+                        
                     </td>
                     <td>
                         <span v-if="saving">{{ $t(captionI18n) }}</span>

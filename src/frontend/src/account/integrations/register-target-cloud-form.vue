@@ -4,7 +4,7 @@
             <whole-screen-message v-if="token"
                 class="container"
                 icon="pe-7s-global"
-                header-i18n="Your private SUPLA Cloud is almost registered."
+                header-i18n="Your private SPIDER HOME  is almost registered."
                 :message="$t('You just need to execute the following command inside your host terminal.')">
                 <div class="flex-left-full-width">
                     <pre style="overflow: hidden"><code style="white-space: nowrap; overflow: hidden">{{ tokenCommand }}</code></pre>
@@ -17,7 +17,7 @@
             <whole-screen-message v-if="unregistered"
                 class="container"
                 icon="pe-7s-mail"
-                header-i18n="You have requested to unregister your SUPLA Cloud instance"
+                header-i18n="You have requested to unregister your SPIDER HOME  instance"
                 :message="$t('We have sent you an email with further instructions.')">
             </whole-screen-message>
         </transition>
@@ -32,7 +32,7 @@
                         <div class="create-form">
                             <h1 class="page-title"
                                 v-title>
-                                {{ $t('Register private SUPLA Cloud') }}</h1>
+                                {{ $t('Register private SPIDER HOME ') }}</h1>
 
                             <form @submit.prevent="submit()"
                                 class="register-form">
@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div :class="['form-group', {'has-error': errorUrl}]">
-                                    <label for="url">{{ $t('Where is your SUPLA Cloud?') }}</label>
+                                    <label for="url">{{ $t('Where is your SPIDER HOME ?') }}</label>
                                     <input type="text"
                                         class="form-control"
                                         autocorrect="off"
@@ -60,7 +60,7 @@
                                         @blur="urlTouched = true"
                                         v-model="targetCloud">
                                     <div
-                                        class="help-block for-error-only">{{ $t('Please provide a valid domain name for your private SUPLA Cloud') }}
+                                        class="help-block for-error-only">{{ $t('Please provide a valid domain name for your private SPIDER HOME') }}
                                     </div>
                                     <span class="help-block">
                                         {{ $t('Enter the domain with the port only if it is not standard (443). We require HTTPS connection.') }}

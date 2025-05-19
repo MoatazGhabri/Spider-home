@@ -1,11 +1,11 @@
 .btn {
   transition: all .2s;
   &-green {
-    background: $supla-green;
+    background: $supla-red;
     color: $supla-white;
-    border: 1px $supla-green solid !important;
+    border: 1px $supla-red solid !important;
     &:hover {
-      background: darken($supla-green, 5%);
+      background: darken($supla-red, 5%);
       color: $supla-white !important;
     }
     &.active, &:focus {
@@ -104,7 +104,7 @@
   &-outline {
     background: transparent;
     &.btn-green {
-      color: $supla-green;
+      color: $supla-blue;
     }
     &.btn-orange {
       color: $supla-orange;

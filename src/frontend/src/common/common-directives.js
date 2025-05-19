@@ -13,7 +13,7 @@ Vue.directive('go-to-link-on-row-click', {
 });
 
 const updatePageTitle = function (title) {
-    document.title = title + ' - SUPLA Cloud';
+    document.title = title + ' - SPIDER HOME';
 };
 
 Vue.directive('title', {

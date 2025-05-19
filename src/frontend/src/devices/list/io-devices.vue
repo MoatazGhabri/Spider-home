@@ -43,7 +43,7 @@
                     {
                         icon: 'pe-7s-light',
                         title: 'Lighting', // i18n
-                        description: 'With SUPLA you can operate the lights in your home or office', // i18n
+                        description: 'With spiderhome you can operate the lights in your home or office', // i18n
                     },
                     {
                         image: 'thermometer.svg',
@@ -73,7 +73,7 @@
                     {
                         icon: 'pe-7s-plane',
                         title: 'From anywhere', // i18n
-                        description: 'SUPLA is available from anywhere at any time, so do not worry, if you forget to turn the lights off next time', // i18n
+                        description: 'Spiderhome is available from anywhere at any time, so do not worry, if you forget to turn the lights off next time', // i18n
                     },
                 ]
             };

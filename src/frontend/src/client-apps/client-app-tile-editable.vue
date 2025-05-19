@@ -27,7 +27,7 @@
                         </div>
                         <switches v-model="editingModel.enabled"
                             type-bold="true"
-                            color="green"
+                            color="blue"
                             :emit-on-mount="false"
                             :text-enabled="$t('Enabled')"
                             :text-disabled="$t('Disabled')"></switches>

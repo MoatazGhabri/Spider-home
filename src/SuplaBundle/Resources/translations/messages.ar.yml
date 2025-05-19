@@ -181,7 +181,7 @@ Choose the schedule: اختيار جدول زمني
 Choose the source channel.: حدد القناة المصدر.
 Clear: مسح
 Click the following link to confirm removal of your account on %cloudHost%.: لتأكيد رغبتك في حذف حساب SUPLA الخاص بك، أنقر فوق الرابط أدناه.
-Click the following link to confirm unregistration of your private SUPLA Cloud instance (%targetCloudUrl%).: انقر على الرابط أدناه لتأكيد إلغاء تسجيل مثيل SUPLA Cloud الخاص بك (%targetCloudUrl%).
+Click the following link to confirm unregistration of your private SPIDER HOME instance (%targetCloudUrl%).: انقر على الرابط أدناه لتأكيد إلغاء تسجيل مثيل SPIDER HOME الخاص بك (%targetCloudUrl%).
 'Client app ID: %clientAppId%': 'المعرف: %clientAppId%'
 Client registration: تسجيل العملاء
 Client’s Apps: تطبيقات العميل
@@ -204,7 +204,7 @@ Confirm if you want to remove the Location ID{locationId}. You will no longer be
 Confirm if you want to remove {deviceName} device and all of its channels.: قم بالتأكيد بأنك تريد حذف {deviceName} وجميع قنواته.
 Confirmation: تأكيد
 Connected: متصل
-Connection with a private instance of the SUPLA cloud: اتصال بمثيل سحابةSUPLA الخاص.
+Connection with a private instance of the SPIDER HOME: اتصال بمثيل SPIDER HOME  الخاص.
 Constraints: القيود
 Copy state from other channel: نسخ الحالة من قناة أخرى
 Could not contact Autodiscover service. Try again in a while.: تعذر الاتصال بخدمة التسجيل. يرجى المحاولة مرة أخرى في لحظة.
@@ -397,10 +397,10 @@ If you do not want to delete your account on %cloudHost%, please do not click th
 If you do not want to unregister your instance, please do not click the link.: إذا كنت لا تريد إلغاء تسجيل المثيل الخاص بك، فلا تنقر فوق الرابط.
 If you fail to connect this AP for several minutes, it will restart itself and use the last settings.: إذا فشلت في الاتصال بنقطة الوصول هذه لبضع دقائق تتم إعادة تشغيل الجهاز والاتصال باستخدام الإعدادات الأخيرة.
 If you have doubts or more questions, you can contact us directly at %securityEmail%.: 'إذا كانت لديك أي شكوك أو أسئلة، يمكنك الاتصال بنا عن طريق الكتابة على العنوان: %securityEmail%'
-If you have lost your instance token and you are going to re-register your instance, it's the right thing to do.: إذا كنت ترغب في إعادة تسجيل مثيل SUPLA Cloud الخاص بك بسبب فقدان الرمز المميز الذي تم إنشاؤه في التسجيل السابق - فأنت في المكان الصحيح.
+If you have lost your instance token and you are going to re-register your instance, it's the right thing to do.: إذا كنت ترغب في إعادة تسجيل مثيل SPIDER HOME  الخاص بك بسبب فقدان الرمز المميز الذي تم إنشاؤه في التسجيل السابق - فأنت في المكان الصحيح.
 If you have not used this email address with %cloudHost%, please do not click the link.: إذا لم تكن قد قدمت عنوان البريد الإلكتروني هذا على %cloudHost% ، فلا تنقر فوق الرابط.
 If you really want to delete the account, here are the instructions.: إذا كنت لا تزال ترغب في حذف حساب SUPLA الخاص بك، فإليك التعليمات هنا.
-If you really want to unregister your private SUPLA Cloud instance, here are the instructions.: إذا كنت ترغب حقا في إلغاء تسجيل مثيل SUPLA Cloud الخاص بك  - فستجد أدناه جميع التعليمات.
+If you really want to unregister your private SPIDER HOME instance, here are the instructions.: إذا كنت ترغب حقا في إلغاء تسجيل مثيل SPIDER HOME  الخاص بك  - فستجد أدناه جميع التعليمات.
 If you register yourself again in the future, some devices might need reconfiguration even if you use the same e-mail address.: بعد إعادة تسجيل حسابك، قد تتطلب بعض الأجهزة إعادة التكوين حتى لو قدمت عنوان البريد الإلكتروني نفسه.
 If you want to integrate your Cloud with public OAuth applications, you must {registerYourSuplaCloudLink}.: إذا كنت تريد دمج سحابة SUPLA الخاصة مع تطبيق OAuth  العام، يجب عليك {registerYourSuplaCloudLink}.
 If you want to use the link programmatically, add an appropriate request header to obtain an output you can easily parse.: إذا كنت ترغب في استخدام الرابط المباشر في البرامج الأخرى، فأضف رأس الطلب المناسب للحصول على استجابة أسهل في معالجتها.
@@ -411,7 +411,7 @@ If you wish to unregister your instance, {clickHereLink}.: إذا كنت ترغ�
 Impulse counter: عداد النبضات
 Impulses: النبضات
 In order to confirm account deletion, enter your password.: لتأكيد نيتك في حذف حسابك، أدخل كلمة المرور الخاصة بك.
-In order to get the MQTT Broker credentials, concact the administator of this SUPLA Cloud instance.: للحصول على معلومات تسجيل الدخول إلى وسيط MQTT، اتصل بمسؤول مثيل SUPLA Cloud هذا.
+In order to get the MQTT Broker credentials, concact the administator of this SPIDER HOME instance.: للحصول على معلومات تسجيل الدخول إلى وسيط MQTT، اتصل بمسؤول مثيل SUPLA Cloud هذا.
 Inactive: غير نشط
 Include energy corrections in new measurements history (not recommended): تضمين قيمة مضافة في السجل (غير مستحسن)
 Incorrect password: كلمة المرور غير صحيحة
@@ -425,7 +425,7 @@ Integrations settings: إعدادات التكامل
 Interrupt: إيقاف تشغيل
 Interrupt and execute: قم بالمقاطعة والتنفيذ
 Interval: الفاصلة
-Invalid SUPLA Cloud URL.: عنوان URL لمثيل SUPLA Cloud غير صالح.
+Invalid SPIDER HOME URL.: عنوان URL لمثيل SPIDER HOME غير صالح.
 Invalid action parameters: معلمات التنفيذ غير صحيحة.
 Invalid function for channel.: وظيفة غير صحيحة للقناة.
 'Invalid redirect URI: {uri}': 'عنوان URL المرتجع غير صالح: {uri}'
@@ -465,13 +465,13 @@ MQTT Broker Username: اسم المستخدم
 MQTT Broker is disabled.: تم تعطيل وسيط MQTT.
 MQTT Broker password: كلمة مرور وسيط MQTT
 MQTT Broker password has been changed.: تم تغيير كلمة مرور وسيط MQTT.
-MQTT Broker username and password is not configured in this SUPLA Cloud instance.: لم يتم تكوين اسم المستخدم أو كلمة المرور في هذا المثيل.
+MQTT Broker username and password is not configured in this SPIDER HOME instance.: لم يتم تكوين اسم المستخدم أو كلمة المرور في هذا المثيل.
 Mail sensor: مستشعر البريد
 Maintenance mode active. You cannot modify any data now.: Działanie w trybie serwisowym. Nie możesz modyfikować żadnych danych.
 Make sure to copy it now because you won’t be able to see it again!: تأكد من الاحتفاظ بها في مكان آمن.
 Make sure to save it in a secure place if you wish to access it in the future. The link won’t be again displayed after you leave this page.: تأكد من حفظه في مكان آمن إذا كنت ترغب في استخدامه في المستقبل. لن يتم عرض الرابط بعد مغادرة هذه الصفحة.
-Manage your new client app in the SUPLA-Cloud.: إدارة إعدادات التطبيق في SUPLA-Cloud.
-Manage your new device in the SUPLA-Cloud or with your smartphone SUPLA app.: قم بإدارة جهازك في SUPLA-Cloud أو باستخدام تطبيق SUPLA على هاتفك الذكي.
+Manage your new client app in the SPIDER HOME .: إدارة إعدادات التطبيق في SPIDER HOME .
+Manage your new device in the SPIDER HOME or with your smartphone SPIDER HOME app.: قم بإدارة جهازك في SPIDER HOME أو باستخدام تطبيق SPIDER HOME على هاتفك الذكي.
 Manual: تعليمات
 Manually closed: مغلق يدويا
 Maximum delay is 60 minutes.: الحد الأقصى للتأخير هو 60 دقيقة.
@@ -488,7 +488,7 @@ Mondays: الاثنين
 Move down or stop: لأسفل أو توقف
 Move up or stop: لأعلى أو توقف
 My OAuth apps: تطبيقات OAuth الخاصة بي
-My SUPLA: SUPLA الخاصة بي
+My SPIDER HOME: SPIDER HOME  الخاصة بي
 NOTICE!: ملاحظة!
 Name: الاسم
 'Name: %clientAppName%': 'الاسم: %clientAppName%'
@@ -584,7 +584,7 @@ Please enter a valid email address: يرجى إدخال عنوان بريد إل
 Please fill a valid email address: يرجى إدخال عنوان بريد إلكتروني صالح
 Please fix the problems with operations and try again.: قم بحل المشاكل مع العمليات وثم حاول مرة أخرى.
 Please log in again to proceed.: تسجيل الدخول مرة أخرى للمتابعة.
-Please provide a valid domain name for your private SUPLA Cloud: أدخل اسم المجال الصحيح لسحابة SUPLA الخاصة بك
+Please provide a valid domain name for your private SPIDER HOME: أدخل اسم المجال الصحيح لسحابة SUPLA الخاصة بك
 Please read the Terms and Conditions.: اقرأ اللوائح.
 Please select a condition: الرجاء اختيار شرط
 Please wait a moment before the next login attempt.: انتظر لحظة قبل محاولة تسجيل الدخول التالية.

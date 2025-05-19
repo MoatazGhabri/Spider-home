@@ -228,21 +228,21 @@ class AuthorizeOAuthController extends AbstractController {
         $parts = array_reverse($parts);
         Assertion::true(
             (strpos($parts[0], 'supla') === false && strpos($parts[1], 'supla') === false) || "$parts[1].$parts[0]" === 'supla.io',
-            'You cannot use SUPLA project name in the domain name.' // i18n
+            'You cannot use SPIDER home project name in the domain name.' // i18n
         );
 
         $info = $this->getTargetCloudInfo($targetCloud);
         // @codingStandardsIgnoreStart
         Assertion::isArray(
             $info,
-            'Your private SUPLA Cloud instance is not available. Make sure your server is online and your https connection works properly.' // i18n
+            'Your private SPIDER HOME  instance is not available. Make sure your server is online and your https connection works properly.' // i18n
         );
         // @codingStandardsIgnoreEnd
         Assertion::version(
             ApiVersions::V2_3,
             '<=',
             $info['cloudVersion'] ?? '0.0.0',
-            'You need to update your SUPLA Cloud to version 2.3.0. or newer.' // i18n
+            'You need to update your SPIDER HOME to version 2.3.0. or newer.' // i18n
         );
         $token = $this->autodiscover->issueRegistrationTokenForTargetCloud($targetCloud, $email);
         return $this->json(['token' => $token]);

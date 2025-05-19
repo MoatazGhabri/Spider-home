@@ -19,10 +19,10 @@
     background-color: $supla-white;
     margin: 0;
     font: inherit;
-    color: currentColor;
+    color: $supla-blue;
     width: 1.15em;
     height: 1.15em;
-    border: 0.15em solid currentColor;
+    border: 0.15em solid $supla-blue;
     border-radius: 0.15em;
     transform: translateY(-0.075em);
     display: grid;
@@ -42,7 +42,7 @@
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em $supla-green;
+    box-shadow: inset 1em 1em $supla-blue;
   }
 
   input[type="checkbox"]:checked::before {
@@ -50,7 +50,7 @@
   }
 
   input[type="checkbox"]:focus {
-    outline: max(2px, 0.15em) solid currentColor;
+    outline: max(2px, 0.15em) solid $supla-blue;
     outline-offset: max(2px, 0.15em);
   }
 

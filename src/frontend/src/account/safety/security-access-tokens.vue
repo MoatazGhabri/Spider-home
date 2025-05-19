@@ -63,7 +63,7 @@
             @cancel="accessTokenToDelete = undefined"
             :header="$t('Are you sure you want to log out this device?')"
             :loading="deleting">
-            {{ $t('The device that uses this session will loose access to the SUPLA Cloud and will need to reauthenticate.') }}
+            {{ $t('The device that uses this session will loose access to the SPIDER HOME and will need to reauthenticate.') }}
         </modal-confirm>
     </div>
 </template>

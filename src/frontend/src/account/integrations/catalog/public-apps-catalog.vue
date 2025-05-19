@@ -2,7 +2,7 @@
     <page-container :error="error">
         <div class="container">
             <h1 v-title>
-                SUPLA Apps
+                Spiderhome Apps
                 <span v-if="app">
                     &mdash; <span v-title>{{ app.name }}</span>
                 </span>

@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard-container">
       <!-- Header -->
-      <h1 class="dashboard-header">Tableau de bord</h1>
+      <!-- <h1 class="dashboard-header">Tableau de bord</h1> -->
   
       <!-- Top Stats Cards -->
       <div class="stats-grid">
@@ -35,14 +35,35 @@
         <!-- Carte Appareils -->
         <div class="stat-card">
           <p class="stat-label">Appareils</p>
-          <p class="stat-subtext">Status du réseau</p>
+          <p class="stat-subtext">Status des appareils</p>
           <div class="stat-value-container">
-            <span class="stat-value">{{ connectedDevices }}/{{ totalDevices }}</span>
+            <span class="stat-value">{{ deviceStats.connectedDevices }}/{{ deviceStats.totalDevices }}</span>
             <span class="stat-change purple">En ligne</span>
           </div>
         </div>
       </div>
   
+      
+  
+      <!-- Appareils actifs -->
+      <div class="devices-section">
+        <h2 class="section-title">Appareils actifs</h2>
+        <div class="devices-grid">
+          <div 
+            v-for="(location, index) in deviceStats.activeDevices" 
+            :key="index" 
+            class="device-card" 
+            :class="location.color"
+          >
+            <p class="device-location">{{ location.name }}</p>
+            <p class="device-count">{{ location.activeDevices }}/{{ location.totalDevices }} appareil(s) actif(s)</p>
+            <span class="device-status" :class="location.activeDevices === location.totalDevices ? 'positive' : 'neutral'">
+              {{ location.activeDevices === location.totalDevices ? 'Tous en ligne' : 'Partiellement en ligne' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
       <!-- Graphique -->
       <div class="graph-section">
         <h2 class="section-title">Historique température</h2>
@@ -50,33 +71,22 @@
           <canvas ref="tempChart"></canvas>
         </div>
       </div>
-  
-      <!-- Appareils actifs -->
-      <div class="devices-section">
-        <h2 class="section-title">Appareils actifs</h2>
-        <div class="devices-grid">
-          <div 
-            v-for="(room, index) in activeDevices" 
-            :key="index" 
-            class="device-card" 
-            :class="room.color"
-          >
-            <p class="device-location">{{ room.name }}</p>
-            <p class="device-count">{{ room.devices }} appareil(s) actif(s)</p>
-            <span class="device-status">En ligne</span>
-          </div>
-        </div>
-      </div>
+      <!-- <accessIds :model="channel" class="accessIds"></accessIds> -->
     </div>
   </template>
   
   <script>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import Chart from 'chart.js/auto';
-  
+  import { useChannelsStore } from "@/stores/channels-store";
+  import { useLocationsStore } from "@/stores/locations-store";
+  // import accessIds from '../../access-ids/access-ids-page.vue'
   export default {
+    components: {},
     name: "Dash-board",
     setup() {
+      const channelsStore = useChannelsStore();
+      const locationsStore = useLocationsStore();
       // Données réactives
       const indoorTemp = ref(0);
       const outdoorTemp = ref(0);
@@ -84,10 +94,50 @@
       const tempTrendClass = ref('positive');
       const weatherDescription = ref('Chargement...');
       const weatherIcon = ref('');
-      const connectedDevices = ref(0);
-      const totalDevices = ref(0);
-      const activeDevices = ref([]);
       const tempChart = ref(null);
+  
+      // Computed properties for device stats
+      const deviceStats = computed(() => {
+        const channels = Object.values(channelsStore.all);
+        const totalDevices = channels.length;
+        const connectedDevices = channels.filter(channel => channel.connected).length;
+        
+        // Group devices by location using locationsStore
+        const devicesByLocation = channels.reduce((acc, channel) => {
+          const locationObj = locationsStore.all[channel.locationId];
+          const locationName = locationObj?.caption || 'Unknown Location';
+          if (!acc[locationName]) {
+            acc[locationName] = {
+              name: locationName,
+              totalDevices: 0,
+              activeDevices: 0,
+              color: getRandomColor()
+            };
+          }
+          acc[locationName].totalDevices++;
+          if (channel.connected) {
+            acc[locationName].activeDevices++;
+          }
+          return acc;
+        }, {});
+
+        // Sort locations by name
+        const sortedLocations = Object.values(devicesByLocation).sort((a, b) => 
+          a.name.localeCompare(b.name)
+        );
+
+        return {
+          totalDevices,
+          connectedDevices,
+          activeDevices: sortedLocations
+        };
+      });
+  
+      // Helper function to get random color for device cards
+      const getRandomColor = () => {
+        const colors = ['blue', 'purple', 'yellow', 'orange', 'red'];
+        return colors[Math.floor(Math.random() * colors.length)];
+      };
   
       // Simuler des données de température intérieure
       const fetchIndoorTemperature = () => {
@@ -125,18 +175,6 @@
         }
       };
   
-      // Simuler des appareils connectés
-      const simulateDevices = () => {
-        totalDevices.value = 15;
-        connectedDevices.value = 12 + Math.floor(Math.random() * 2); // 12 ou 13
-        
-        activeDevices.value = [
-          { name: 'Salon', devices: 3, color: 'blue' },
-          { name: 'Cuisine', devices: 2, color: 'purple' },
-          { name: 'Chambre', devices: 1, color: 'yellow' }
-        ];
-      };
-  
       // Initialiser le graphique
       const initChart = () => {
         if (tempChart.value) {
@@ -169,9 +207,9 @@
   
       // Au montage du composant
       onMounted(() => {
+        channelsStore.fetchAll();
         fetchIndoorTemperature();
         fetchWeather();
-        simulateDevices();
         initChart();
         
         // Rafraîchir la météo toutes les heures
@@ -185,10 +223,8 @@
         tempTrendClass,
         weatherDescription,
         weatherIcon,
-        connectedDevices,
-        totalDevices,
-        activeDevices,
-        tempChart
+        tempChart,
+        deviceStats
       };
     }
   };
@@ -244,13 +280,13 @@
 .stat-label {
   color: #334155;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin-bottom: 0.25rem;
 }
 
 .stat-subtext {
   color: #64748b;
-  font-size: 0.85rem;
+  font-size: 1.25rem;
   opacity: 0.9;
 }
 
@@ -268,7 +304,7 @@
 }
 
 .stat-change {
-  font-size: 0.85rem;
+  font-size: 1.25rem;
   font-weight: 500;
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
@@ -284,6 +320,7 @@
 
 /* Forecast Section */
 .graph-section {
+  height: 500px;
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
@@ -291,7 +328,7 @@
 }
 
 .section-title {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #1e293b;
   margin-bottom: 1rem;
@@ -302,7 +339,7 @@
 .devices-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1.5rem; 
 }
 
 @media (min-width: 768px) {
@@ -327,14 +364,14 @@
 
 .device-location {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #1e293b;
   margin-bottom: 0.25rem;
 }
 
 .device-count {
   color: #475569;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
   opacity: 0.9;
 }
 
@@ -343,7 +380,7 @@
   margin-top: 0.5rem;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 1.25rem;
   font-weight: 600;
   background-color: rgba(5, 150, 105, 0.15);
   color: #059669;
@@ -418,5 +455,8 @@
 .forecast-desc {
   color: #64748b;
   font-size: 0.9rem;
+}
+canvas{
+  height: 400px;
 }
 </style>

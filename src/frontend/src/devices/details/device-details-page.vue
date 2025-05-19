@@ -306,7 +306,7 @@
     .original-location {
         display: block;
         padding: 5px;
-        background: rgba(193, 209, 81, 0.75);
+        background: rgba(81, 94, 209, 0.75);
         color: $supla-white;
         margin-bottom: 10px;
         strong {

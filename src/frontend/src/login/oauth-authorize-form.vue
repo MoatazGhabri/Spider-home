@@ -5,7 +5,7 @@
                 <span class="app-name">{{ clientName }}</span>
                 <span class="arrow"><span class="pe-7s-link"></span></span>
                 <img src="../assets/img/logo.svg"
-                    alt="SUPLA">
+                    alt="spiderhome">
             </div>
             <h3 class="text-center">{{ $t('Authorize the application, so that it can access your account.') }}</h3>
             <div class="form-group clearfix">

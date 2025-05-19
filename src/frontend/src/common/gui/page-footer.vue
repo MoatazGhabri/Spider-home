@@ -17,8 +17,8 @@
                     <div v-else-if="isLoginPage && !frontendConfigStore.config.maintenanceMode">
                         <a v-if="showRegisterCloud"
                             class="brand nav-link"
-                            :href="`https://cloud.supla.org/register-cloud?domain=${domain}`">
-                            {{ $t('Register your SUPLA Cloud') }}
+                            :href="`https://cloud.spiderhome.org/register-cloud?domain=${domain}`">
+                            {{ $t('Register your SPIDER HOME ') }}
                         </a>
                     </div>
                     <a v-else

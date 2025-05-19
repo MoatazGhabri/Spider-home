@@ -53,11 +53,11 @@ class RegisterTargetCloudCommand extends Command {
             $this->autodiscover->isTarget(),
             'Your instance seems to be registered already. If you have any problems integrating some of the apps, feel free to contact us.'
         );
-        $output->writeln('Registering your private SUPLA Cloud...');
+        $output->writeln('Registering your private SPIDER HOME ...');
         $registrationToken = $input->getArgument('registrationToken');
         $authorizationToken = $this->autodiscover->registerTargetCloud($registrationToken);
         $this->settingsStringRepository->setValue(InstanceSettings::TARGET_TOKEN, $authorizationToken);
-        $output->writeln('<info>You have correctly registered your private SUPLA Cloud!');
+        $output->writeln('<info>You have correctly registered your private SPIDER HOME!');
         $output->writeln("<info>Now, go to {$this->localSuplaCloud->getAddress()}/apps to explore new possibilities!");
     }
 }

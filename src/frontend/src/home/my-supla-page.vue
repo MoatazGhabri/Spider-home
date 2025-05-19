@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar" @mouseenter="showNav" @mouseleave="hideNav" :class="{ 'navbar-visible': isNavVisible }">
+        <nav class="navbar" >
             <div class="nav-left">
                 <div class="img">
                     <img src="./assets/logo.gif" alt="Logo" class="logo" />
@@ -41,20 +41,13 @@ export default {
     data() {
         return {
             listType: 'devices',
-            isNavVisible: false
+            
         };
     },
     computed: {
         ...mapState(useFrontendConfigStore, { frontendConfig: 'config' }),
     },
-    methods: {
-        showNav() {
-            this.isNavVisible = true;
-        },
-        hideNav() {
-            this.isNavVisible = false;
-        }
-    }
+   
 };
 </script>
 
@@ -66,15 +59,16 @@ export default {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    top: -100px;
+    top: 0;
     left: 0;
     width: 100%;
-    transition: top 0.3s ease-in-out;
-    z-index: 9999;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* petite ombre pour effet joli */
 }
-.navbar-visible {
+
+/* .navbar-visible {
     top: 0;
-}
+} */
 
 .navbar-container {
     display: flex;
@@ -112,8 +106,9 @@ export default {
 }
 
 .content {
-    margin-top: 60px; /* Adjust for the fixed nav height */
+    margin-top: 120px; /* Mets 120px pour compenser la hauteur de ton navbar + logo */
 }
+
 
 .logo {
     height: 100px;

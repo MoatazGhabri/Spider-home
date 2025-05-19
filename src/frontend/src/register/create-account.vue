@@ -13,7 +13,7 @@
         </transition>
         <transition name="fade-router">
             <div v-if="!registeredEmail">
-                <div class="register-page">
+                <div class="register">
                     <div class="register-slider-container">
                         <register-slider :texts="['register-slide1', 'register-slide2', 'register-slide3']"></register-slider>
                     </div>

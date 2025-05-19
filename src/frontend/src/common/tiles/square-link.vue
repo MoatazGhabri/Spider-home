@@ -1,12 +1,20 @@
 <template>
-    <div class="square-link"
+    <div :class="['square-link', colorClass]"
         @click="$emit('click')">
         <slot></slot>
     </div>
 </template>
 
 <script>
-    export default {};
+    export default {
+        props: ['index'],
+        computed: {
+            colorClass() {
+                const colors = ['blue', '#33b0df', 'yellow'];
+                return colors[this.index % 3];
+            }
+        }
+    };
 </script>
 
 <style lang="scss">
@@ -18,11 +26,17 @@
         background: $supla-green;
         color: white;
         padding: 5px 10px;
-        border-radius: 3px;
-        border: 2px solid $supla-green;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 2px solid #011627;
         transition: all .3s;
         height: 100%;
         cursor: pointer;
+        &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #33b0df; /* Maintain border color on hover */
+  }
         > a, > .valign-center {
             display: block;
             width: 100%;
@@ -71,6 +85,11 @@
             color: $supla-white;
             border-color: $supla-black;
         }
+        // &.green {
+        //     background: $supla-gr;
+        //     color: $supla-white;
+        //     border-color: $supla-black;
+        // }
         &:hover {
             border-color: $supla-black;
             > a {

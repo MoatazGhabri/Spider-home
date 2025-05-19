@@ -1,13 +1,12 @@
-import 'bootstrap/js/dropdown';
-import 'bootstrap/js/tooltip';
+// import 'bootstrap/js/dropdown';
+// import 'bootstrap/js/tooltip';
 
-// main.js/ts
-import {createApp} from 'vue'
-import {createBootstrap} from 'bootstrap-vue-next'
-
-// Add the necessary CSS
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+// import BootstrapVue from 'bootstrap-vue';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap-vue/dist/bootstrap-vue.css';
+// import {IconsPlugin } from 'bootstrap-vue'
+// Vue.use(IconsPlugin)
+// Vue.use(BootstrapVue);
 import "pixeden-stroke-7-icon/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Vue from "vue";
@@ -32,6 +31,7 @@ import {pinia} from "@/stores";
 import {useFrontendConfigStore} from "@/stores/frontend-config-store";
 import {PiniaVuePlugin} from "pinia";
 import {useCurrentUserStore} from "@/stores/current-user-store";
+
 Vue.use(VueResource);
 Vue.use(FloatingVue);
 Vue.use(PiniaVuePlugin);

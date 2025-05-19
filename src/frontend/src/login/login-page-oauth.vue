@@ -34,7 +34,7 @@
                             <input type="checkbox"
                                 v-model="ownCloud"
                                 @change="error = undefined">
-                            {{ $t('Connection with a private instance of the SUPLA cloud') }}
+                            {{ $t('Connection with a private instance of the SPIDER HOME') }}
                         </label>
                     </label>
                 </div>
@@ -55,7 +55,7 @@
                                 class="form-control">
                         </span>
                         <span class="help-block">
-                            {{ $t('Only domain names with an optional port number are allowed. E.g. mysupla.org or mysupla.org:88. HTTPS is required.') }}
+                            {{ $t('Only domain names with an optional port number are allowed. E.g. myspiderhome.org or myspiderhome.org:88. HTTPS is required.') }}
                         </span>
                     </div>
                 </transition-expand>
@@ -64,7 +64,7 @@
                         v-if="error">
                         <div v-if="error == 'autodiscover_fail'">
                             <div v-if="ownCloud">
-                                <strong>{{ $t('We could not connect to your SUPLA Cloud instance.') }}</strong>
+                                <strong>{{ $t('We could not connect to your SPIDER HOME  instance.') }}</strong>
                                 {{ $t('Your instance is not registered or you are trying to authorize an application that is not public.') }}
                             </div>
                             <div v-else>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div v-if="error == 'private_cloud_fail'">
-                            {{ $t('Your private SUPLA Cloud instance is not available. Make sure your server is online and your https connection works properly.') }}
+                            {{ $t('Your private SPIDER HOME instance is not available. Make sure your server is online and your https connection works properly.') }}
                         </div>
                     </div>
                 </transition>

@@ -8,7 +8,7 @@
             <transition-expand>
                 <div class="well"
                     v-if="showHelp">
-                    <p class="text-justify">{{ $t('This schedule mode is meant to be used by advanced or patient users only. You need to specify schedule execution behavior in a Crontab notation (extended by some SUPLA flavours). You may find the crontab.guru website helpful, if you have not came across crontabs yet.') }}</p>
+                    <p class="text-justify">{{ $t('This schedule mode is meant to be used by advanced or patient users only. You need to specify schedule execution behavior in a Crontab notation (extended by some spiderhome flavours). You may find the crontab.guru website helpful, if you have not came across crontabs yet.') }}</p>
                     <p class="text-center"><a href="https://crontab.guru/">https://crontab.guru</a></p>
                     <p class="text-justify">{{ $t('Keep in mind, that the humanized description of the entered crontab is not perfect. It is meant to help you find appropriate value, not to validate your input. Pay attention to the "Closest executions" section for final confiration that the schedule you configured behaves as expected.') }}</p>
                     <p class="text-justify">{{ $t('You may find the below examples helpful, provided that you are still willing to use the advanced schedule mode.') }}</p>

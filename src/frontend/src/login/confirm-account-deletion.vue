@@ -23,7 +23,7 @@
                 <label class="checkbox2">
                     <input type="checkbox" v-model="understood">
                     <span>
-                        {{ $t('I understand that my SUPLA account will be permanently deleted.') }}
+                        {{ $t('I understand that my Spiderhome account will be permanently deleted.') }}
                     </span>
                 </label>
             </div>
